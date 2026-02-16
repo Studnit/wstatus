@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurus Certification Tracker</title>
+
+<style>
+:root {
+  --excel-green: #217346;
+  --bg-color: #f4f7f6;
+  --text-dark: #2c3e50;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-color);
+  margin: 0;
+  padding: 20px 20px 40px 40px;
+  transition: background 0.3s;
+}
+
+h1 { margin: 0; color: var(--text-dark); }
+.section-title {
+  color: #2c3e50;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* HEADER & DASHBOARD */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+.dashboard {
+  display: flex;
+  gap: 15px;
+  margin-top: 12px;
+}
+.stat-box {
+  background: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text-dark);
+  border-left: 5px solid #3498db;
+}
+.stat-box:nth-child(2) { border-left-color: #27ae60; }
+.stat-box:nth-child(3) { border-left-color: #f39c12; }
+
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+#searchInput {
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  width: 200px;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+#searchInput:focus { border-color: #3498db; }
+
+.main-btn {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: 0.2s;
+}
+.main-btn:hover { filter: brightness(1.1); }
+.export-btn { background: var(--excel-green); }
+
+/* SIDEBAR */
+#excelSidebar {
+  position: fixed;
+  left: -260px;
+  top: 0;
+  width: 260px;
+  height: 100vh;
+  background: #2c3e50;
+  color: #fff;
+  display: none;
+  flex-direction: column;
+  transition: left 0.3s ease-in-out;
+  z-index: 1000;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+}
+#excelSidebar.active, #excelSidebar:hover { left: 0; }
+#sidebarTrigger {
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 80px;
+  background: #2c3e50;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar-section {
+  padding: 15px 20px 5px;
+  font-size: 12px;
+  color: #bdc3c7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.sidebar-btn {
+  margin: 5px 20px;
+  padding: 10px 15px;
+  border: none;
+  background: #34495e;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: left;
+  transition: 0.2s;
+}
+.sidebar-btn:hover { background: #3498db; padding-left: 20px; }
+.sidebar-btn.danger { background: #c0392b; }
+.sidebar-btn.danger:hover { background: #e74c3c; padding-left: 15px; }
+.sidebar-btn.save-btn { margin-top: auto; margin-bottom: 30px; background: #27ae60; text-align: center; font-size: 16px; padding: 15px;}
+.sidebar-btn.save-btn:hover { background: #2ecc71; padding-left: 15px; }
+
+/* TABLE & SCROLLER */
+.table-wrapper {
+  overflow-x: auto; /* Guarantees Horizontal Scrolling */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  border-radius: 8px;
+  background: #fff;
+  max-height: 50vh;
+  margin-bottom: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  min-width: 1200px; /* Forces scroll on smaller screens */
+}
+th, td {
+  border: 1px solid #bdc3c7;
+  padding: 10px;
+  font-size: 13px;
+  text-align: center;
+  white-space: nowrap;
+}
+th {
+  position: sticky;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0 2px 2px -1px rgba(0,0,0,0.4);
+}
+
+/* HEADER AND FILTER ROW STICKY LOGIC */
+.sort-header th {
+  height: 35px;
+  top: 0;
+  z-index: 3;
+  cursor: pointer;
+  user-select: none;
+}
+.sort-header th:hover { filter: brightness(0.9); }
+
+.filter-row th {
+  top: 55px;
+  z-index: 2;
+  background: #ecf0f1 !important;
+  padding: 5px;
+  border-top: none;
+}
+.col-filter {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+.col-filter:focus { border-color: #3498db; }
+
+/* HEADER COLORS */
+.sort-header th:nth-child(1), .sort-header th:nth-child(3) { background: #2980b9; }
+.sort-header th:nth-child(2) { background: #c0392b; }
+.sort-header th:nth-child(4), .sort-header th:nth-child(5) { background: #8e44ad; }
+.sort-header th:nth-child(6) { background: #d35400; }
+.sort-header th:nth-child(7) { background: #7f8c8d; }
+.sort-header th:nth-child(8) { background: #9b59b6; }
+.sort-header th:nth-child(9), .sort-header th:nth-child(10) { background: #27ae60; }
+
+/* COLUMN COLORS */
+td:nth-child(1) { background: #ebf5fb; }
+td:nth-child(2) { background: #fadbd8; }
+td:nth-child(3) { background: #d6eaf8; text-align: left; font-weight: 500;}
+td:nth-child(4) { background: #e8daef; }
+td:nth-child(5) { background: #d2b4de; }
+td:nth-child(6) { background: #f8c471; font-weight: bold; }
+td:nth-child(7) { background: #eaeded; }
+td:nth-child(8) { background: #c39bd3; }
+
+/* STATUS COLORS */
+.status-yes { background: #2ecc71 !important; color: #fff; font-weight: bold; }
+.status-no { background: #e74c3c !important; color: #fff; font-weight: bold; }
+.status-na { background: #f1c40f !important; font-weight: bold; }
+.status-waiting { background: #aed6f1 !important; font-weight: bold; }
+
+.row-completed td { background: #ffff66 !important; font-weight: bold; color: black; }
+.row-orange td { background: #f39c12 !important; font-weight: bold; color: black; }
+
+/* ADMIN EDITING VISUALS */
+td[contenteditable="true"] { cursor: text; }
+td[contenteditable="true"]:focus {
+  outline: 3px solid var(--excel-green);
+  outline-offset: -2px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.1);
+}
+tr.active-row td { filter: brightness(0.92); }
+
+/* TOAST NOTIFICATION */
+#toast {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 16px;
+  position: fixed;
+  z-index: 2000;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.3s, bottom 0.3s;
+}
+#toast.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 50px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="toast">Notification text</div>
+
+<div id="excelSidebar">
+  <div id="sidebarTrigger">▶</div>
+  <h3 style="text-align:center; margin-top: 20px;">🛠 Sheet Tools</h3>
+  
+  <div class="sidebar-section">Row Controls</div>
+  <button class="sidebar-btn" onclick="addRow()">➕ Add New Row</button>
+  <button class="sidebar-btn" onclick="moveActiveRow(-1)">⬆️ Move Row Up</button>
+  <button class="sidebar-btn" onclick="moveActiveRow(1)">⬇️ Move Row Down</button>
+  <button class="sidebar-btn danger" onclick="deleteActiveRow()">🗑 Delete Row</button>
+  
+  <div class="sidebar-section">Data Management</div>
+  <button class="sidebar-btn danger" onclick="resetData()" style="font-size: 11px;">⚠️ Reset to Default Data</button>
+  
+  <button class="sidebar-btn save-btn" onclick="saveData()">💾 Save Changes</button>
+</div>
+
+<div class="header-container">
+  <div>
+    <h1>Aurus Certification Tracker</h1>
+    <div class="dashboard">
+      <div class="stat-box">📊 Total: <span id="statTotal">0</span></div>
+      <div class="stat-box">✅ Completed: <span id="statComp">0</span></div>
+      <div class="stat-box">⏳ In-Progress: <span id="statProg">0</span></div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="main-btn export-btn" onclick="exportCSV()">📤 Export CSV</button>
+    <input type="text" id="searchInput" placeholder="🔍 Global Search..." oninput="render()">
+    <button id="adminBtn" class="main-btn" onclick="toggleAdmin()">🔒 Enable Admin Mode</button>
+  </div>
+</div>
+
+<h2 class="section-title">⏳ In-Progress Projects</h2>
+<div class="table-wrapper">
+<table id="inProgressTable">
+<thead>
+  <tr class="sort-header">
+    <th onclick="sortTable(0)">SR NO</th>
+    <th onclick="sortTable(1)">EP ID</th>
+    <th onclick="sortTable(2)">Certification Name</th>
+    <th onclick="sortTable(3)">Start Date</th>
+    <th onclick="sortTable(4)">End Date</th>
+    <th onclick="sortTable(5)">Project Status</th>
+    <th onclick="sortTable(6)">Developer Name</th>
+    <th onclick="sortTable(7)">Team Lead Name</th>
+    <th onclick="sortTable(8)">Last Week</th>
+    <th onclick="sortTable(9)">9–13 Feb</th>
+  </tr>
+  <tr class="filter-row">
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+  </tr>
+</thead>
+<tbody id="tbody-inprogress"></tbody>
+</table>
+</div>
+
+<h2 class="section-title">✅ Completed Projects</h2>
+<div class="table-wrapper">
+<table id="completedTable">
+<thead>
+  <tr class="sort-header">
+    <th onclick="sortTable(0)">SR NO</th>
+    <th onclick="sortTable(1)">EP ID</th>
+    <th onclick="sortTable(2)">Certification Name</th>
+    <th onclick="sortTable(3)">Start Date</th>
+    <th onclick="sortTable(4)">End Date</th>
+    <th onclick="sortTable(5)">Project Status</th>
+    <th onclick="sortTable(6)">Developer Name</th>
+    <th onclick="sortTable(7)">Team Lead Name</th>
+    <th onclick="sortTable(8)">Last Week</th>
+    <th onclick="sortTable(9)">9–13 Feb</th>
+  </tr>
+  <tr class="filter-row">
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+    <th><input type="text" class="col-filter" placeholder="Filter..." oninput="render()"></th>
+  </tr>
+</thead>
+<tbody id="tbody-completed"></tbody>
+</table>
+</div>
+
+<script>
+const rawInitialData = [
+["1","EP-0128","Chase ISO Wiseasy R1 PTS V6 [04157999]","21/09/25","17/02/26","[In-progress]","Sakshi Gudmewar","Vrushabh Munde","YES","YES"],
+["2","EP-0132","Flexa Wallet Instore Customer Presented Code","15/11/25","20/02/26","[In-progress]","Naga Mani Gatti","Harshal Chaudhari","YES","YES"],
+["3","EP-0134","Flexa Wallet Instore Merchant Presented Code","15/11/25","20/02/26","[In-progress]","Naga Mani Gatti","Harshal Chaudhari","YES","YES"],
+["4","EP-0136","Flexa Wallet Ecommerce Merchant Presented Code","15/11/25","31/03/26","[In-progress]","Naga Mani Gatti","Harshal Chaudhari","YES","YES"],
+["5","EP-0137","BVNK Stable Coins","02/02/26","30/04/26","[In-progress]","Vaishnavi Mate","Harshal Chaudhari","YES","YES"],
+["6","EP-0156","Fiserv Petro Outdoor Cert – Gilbarco M7","14/01/26","13/05/26","[In-progress]","Mani teja , Arjav","Vishal Gaikwad","","YES"],
+["7","EP-0157","WorldPay Network Token and Detokenization","10/01/26","10/02/26","[In-progress]","Harshitha Bhavanasi","Pratik Patil","","YES"],
+["8","EP-0160","GetNet Chile Lane 8000 PTS6","NA","NA","[In-progress]","","Sanket Bargal","","YES"],
+["9","EP-0161","GetNet In-store Implementation – Mexico","NA","NA","[In-progress]","Kritika Singh","Pratik Patil","","YES"],
+["10","EP-0163","Chase Stratus DCC","17/10/25","12/02/26","[In-progress]","Kartik Machare","Gaurav Shitole","","YES"],
+["11","EP-0164","Chase UTF Tandem 3DS","24/09/25","16/02/26","[In-progress]","Kartik Machare","Gaurav Shitole","","YES"],
+["12","EP-0165","Chase Stratus Store and Forward","05/12/25","12/02/26","[Completed]","Gaurav Shitole","Gaurav Shitole","","YES"],
+["13","EP-0166","Chase UTF Tandem Store and Forward","15/12/25","09/02/26","[In-progress]","Swagata","Gaurav Shitole","","Waiting"],
+["14","EP-0167","ForumPay Wallet Ecommerce MPC","21/01/26","27/03/26","[In-progress]","Vaishnavi Mate","Harshal Chaudhari","YES","YES"],
+["15","EP-0187","Chase ISO Petro Fuelman & FleetCor","17/12/25","15/02/26","[In-progress]","Akash Deshmukh","Vishal Gaikwad","","YES"],
+["16","EP-0189","TSYS Ingenico Lane 3600","18/11/25","09/03/26","[In-progress]","Dipak Pawar","Rushikesh Kadam","","YES"],
+["17","EP-0191","Fiserv Canada RAU083 – Lane 8000","01/08/25","NA","[In-progress]","","Gayatri Kelhe","","YES"],
+["18","EP-0192","Citcon Ecommerce Certification","05/08/25","08/10/25","[Completed]","Hemantkumar Nikole","Harshal Chaudhari","","YES"],
+["19","EP-0194","Incomm Gift Pre/Post Auth","29/01/26","27/02/26","[In-progress]","Parag Jain","Dheeraj Shukla","","YES"],
+["20","EP-0195","Chase UTF EMV EBT","19/01/26","27/02/26","[In-progress]","Deepti Soni","Gaurav Shitole","","NA"],
+["21","EP-0196","Worldpay Petro Mastercard 2.0","NA","NA","[In-progress]","Anusha","Vishal Gaikwad","","YES"],
+["22","EP-0197","FD Valulink Gift Regression","NA","NA","[In-progress]","Prathmesh Chitodkar","Rushikesh Kadam","","YES"],
+["23","EP-0198","Worldpay CTLS Cashback","18/08/25","06/03/26","[In-progress]","Prabhat Kashyap","Vrushabh Mundhe","YES","YES"],
+["24","EP-0199","Worldpay Aurus 021 – M450","01/10/25","27/02/26","[In-progress]","Kunal Shinde","Sanket Bargal","YES","YES"],
+["25","EP-0200","Fiserv Europe – Lane 8000","30/07/25","27/02/26","[In-progress]","Akhila Ravi","Dheeraj Shukla","","YES"],
+["26","EP-0202","Fiserv LATAM Argentina – A920","01/10/25","27/03/26","[In-progress]","Kalyani Raut, Shivam","Dheeraj Shukla","",""],
+["27","EP-0203","Moneris Canada – Macless","01/12/25","20/02/26","[In-progress]","Akhila Ravi","Dheeraj Shukla","","YES"],
+["28","EP-0204","Worldpay Aurus 025 iOS","02/02/26","29/05/26","[In-progress]","Kunal Shinde","Sanket Bargal","YES","YES"],
+["29","EP-0205","Worldpay Aurus 020 Android","01/10/25","27/02/26","[In-progress]","Kunal Shinde","Sanket Bargal","YES","YES"],
+["30","EP-0206","Forage (4-H) EBT Ecommerce","NA","NA","[In-progress]","Prathmesh Chitodkar","Rushikesh Kadam","","NO"],
+["31","EP-0207","Elavon Canada Viaconex DCC","13/08/25","17/02/26","[In-progress]","Pravalika","Sushant G","","YES"],
+["32","EP-0208","Elavon Canada Viaconex SolEng","09/10/25","30/04/26","[In-progress]","Pravalika","Sushant G","","YES"],
+["33","EP-0193","Soda Health OTC Ecommerce","02/02/26","27/03/26","[Today Started]","Parag Jain","Hemant Nikole","YES",""],
+["34","EP-0209","Citcon Ecommerce GPay & ApplePay","08/09/25","08/10/25","[Completed]","Hemantkumar Nikole","Harshal Chaudhari","","YES"],
+["35","EP-0211","Incomm OTC Ecommerce","15/01/26","27/02/26","[In-progress]","Parag Jain","Hemant Nikole","YES","YES"],
+["36","","KPN Processor Integration","","","","Ishita","Hemant Nikole","","YES"]
+];
+
+// Load from memory
+let savedData = localStorage.getItem("trackerData_Pro_v3");
+let DATA = savedData ? JSON.parse(savedData) : JSON.parse(JSON.stringify(rawInitialData));
+
+let admin = false, activeRow = null;
+let sortCol = -1, sortAsc = true;
+
+function showToast(msg, type="success") {
+  const toast = document.getElementById("toast");
+  toast.innerText = msg;
+  toast.style.background = type === "success" ? "#27ae60" : "#e74c3c";
+  toast.className = "show";
+  setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+}
+
+function render() {
+ const tbProg = document.getElementById("tbody-inprogress");
+ const tbComp = document.getElementById("tbody-completed");
+ tbProg.innerHTML = "";
+ tbComp.innerHTML = "";
+ 
+ const globalQuery = document.getElementById("searchInput").value.toLowerCase();
+ 
+ // Grab filters from both tables
+ const inProgFilters = Array.from(document.querySelectorAll("#inProgressTable .col-filter")).map(inp => inp.value.toLowerCase());
+ const compFilters = Array.from(document.querySelectorAll("#completedTable .col-filter")).map(inp => inp.value.toLowerCase());
+
+ let total = 0, compCount = 0, progCount = 0;
+
+ DATA.forEach((r, originalIndex) => {
+  const statusStr = r[5].toUpperCase();
+  const isCompleted = statusStr.includes("COMPLETED");
+
+  // Apply Global Search
+  if(globalQuery && !r.join(" ").toLowerCase().includes(globalQuery)) return;
+
+  // Apply Specific Table Column Filters
+  const activeFilters = isCompleted ? compFilters : inProgFilters;
+  let matchAllCols = true;
+  for(let i = 0; i < activeFilters.length; i++) {
+    if (activeFilters[i] && !r[i].toLowerCase().includes(activeFilters[i])) {
+      matchAllCols = false;
+      break;
+    }
+  }
+  if (!matchAllCols) return;
+
+  // Update Counters
+  if(isCompleted) compCount++;
+  else progCount++;
+  total++;
+
+  // Build Row
+  const tr = document.createElement("tr");
+  tr.dataset.index = originalIndex;
+
+  if(isCompleted) tr.className="row-completed";
+  if(r[1] === "EP-0160") tr.classList.add("row-orange");
+  
+  tr.innerHTML = r.map((c, i) => {
+   let cls = "";
+   if(i >= 8) {
+    const v = c.toUpperCase().trim();
+    if(v === "YES") cls="status-yes";
+    else if(v === "NO") cls="status-no";
+    else if(v === "NA") cls="status-na";
+    else if(v.includes("WAIT")) cls="status-waiting";
+   }
+   return `<td contenteditable="${admin}" class="${cls}">${c}</td>`;
+  }).join("");
+  
+  // Append to correct table
+  if (isCompleted) tbComp.appendChild(tr);
+  else tbProg.appendChild(tr);
+ });
+
+ document.getElementById("statTotal").innerText = total;
+ document.getElementById("statComp").innerText = compCount;
+ document.getElementById("statProg").innerText = progCount;
+
+ // Update Sort Arrows
+ document.querySelectorAll(".sort-header th").forEach((th, i) => {
+   th.innerText = th.innerText.replace(/ ▲| ▼/g, "");
+   // Use modulo to correctly update both tables' headers
+   if (i % 10 === sortCol) th.innerText += sortAsc ? " ▲" : " ▼";
+ });
+}
+
+// Click to Sort (Applies globally to both tables)
+function sortTable(colIndex) {
+  // normalize index if clicked from second table
+  colIndex = colIndex % 10; 
+  
+  if (sortCol === colIndex) sortAsc = !sortAsc; 
+  else { sortCol = colIndex; sortAsc = true; }
+
+  DATA.sort((a, b) => {
+    let valA = a[colIndex].toLowerCase();
+    let valB = b[colIndex].toLowerCase();
+    if(colIndex === 0) { valA = parseInt(valA) || 0; valB = parseInt(valB) || 0; }
+    if (valA < valB) return sortAsc ? -1 : 1;
+    if (valA > valB) return sortAsc ? 1 : -1;
+    return 0;
+  });
+  render();
+}
+
+function toggleAdmin() {
+ if(!admin){
+  if(prompt("Admin password (admin123)") !== "admin123") return showToast("Incorrect Password!", "error");
+  admin = true;
+  document.getElementById("excelSidebar").style.display = "flex";
+  document.getElementById("adminBtn").innerText = "🔓 Exit Admin Mode";
+  showToast("Admin Mode Enabled");
+ } else {
+  admin = false;
+  document.getElementById("excelSidebar").style.display = "none";
+  document.getElementById("adminBtn").innerText = "🔒 Enable Admin Mode";
+  if(activeRow) activeRow.classList.remove("active-row");
+  activeRow = null;
+ }
+ render();
+}
+
+// Global Event Listeners for Editing
+document.addEventListener("focusin", e => {
+ if(admin && e.target.tagName === "TD"){
+  if(activeRow) activeRow.classList.remove("active-row");
+  activeRow = e.target.parentElement;
+  activeRow.classList.add("active-row");
+ }
+});
+
+document.addEventListener("input", e => {
+ if(admin && e.target.tagName === "TD") {
+  const tr = e.target.parentElement;
+  const rowIndex = parseInt(tr.dataset.index);
+  const colIndex = [...tr.children].indexOf(e.target);
+  
+  DATA[rowIndex][colIndex] = e.target.innerText; // Sync live memory
+  
+  // Update UI colors instantly on edit
+  if(colIndex >= 5) {
+     const val = e.target.innerText.toUpperCase().trim();
+     if(colIndex === 5) {
+         tr.className = val.includes("COMPLETED") ? "row-completed" : "";
+         if(DATA[rowIndex][1] === "EP-0160") tr.classList.add("row-orange");
+     } else if (colIndex >= 8) {
+         e.target.className = "";
+         if(val === "YES") e.target.className = "status-yes";
+         if(val === "NO") e.target.className = "status-no";
+         if(val === "NA") e.target.className = "status-na";
+         if(val.includes("WAIT")) e.target.className = "status-waiting";
+     }
+  }
+ }
+});
+
+function addRow() {
+ const r = Array(10).fill("");
+ r[0] = DATA.length + 1;
+ r[5] = "[In-progress]"; // Default to in-progress
+ DATA.push(r);
+ render();
+ window.scrollTo(0, document.body.scrollHeight);
+ showToast("New Row Added");
+}
+
+function deleteActiveRow() {
+ if(!activeRow) return showToast("Please click on a row first!", "error");
+ if(confirm("Are you sure you want to delete this row?")) {
+  const idx = parseInt(activeRow.dataset.index);
+  DATA.splice(idx, 1);
+  activeRow = null;
+  render();
+  showToast("Row Deleted", "error");
+ }
+}
+
+function moveActiveRow(direction) {
+ if(!activeRow) return showToast("Please click on a row first!", "error");
+ if(document.getElementById("searchInput").value) return showToast("Cannot move rows while searching", "error");
+
+ const idx = parseInt(activeRow.dataset.index);
+ const targetIdx = idx + direction;
+
+ if (targetIdx >= 0 && targetIdx < DATA.length) {
+    [DATA[idx], DATA[targetIdx]] = [DATA[targetIdx], DATA[idx]];
+    render();
+    
+    // Find the row again across both tables to highlight it
+    document.querySelectorAll("tbody tr").forEach(tr => {
+      if(parseInt(tr.dataset.index) === targetIdx) {
+        activeRow = tr;
+        activeRow.classList.add("active-row");
+      }
+    });
+ }
+}
+
+function resetData() {
+ if(confirm("⚠️ WARNING: This will delete all your edits and restore the original 36 projects. Are you sure?")) {
+  DATA = JSON.parse(JSON.stringify(rawInitialData));
+  saveData();
+  render();
+  showToast("Data Reset to Default");
+ }
+}
+
+function saveData() {
+ localStorage.setItem("trackerData_Pro_v3", JSON.stringify(DATA));
+ showToast("💾 Sheet Saved Successfully!");
+}
+
+function exportCSV() {
+ let csv = "";
+ // Export headers from just the first table
+ const headers = [...document.querySelectorAll("#inProgressTable .sort-header th")].map(th => `"${th.innerText.replace(/ ▲| ▼/g, "")}"`);
+ csv += headers.join(",") + "\n";
+ 
+ // Grab data from ALL tbodys (In-Progress AND Completed)
+ document.querySelectorAll("tbody tr").forEach(r => {
+  csv += [...r.children].map(c => `"${c.innerText.replace(/"/g, '""')}"`).join(",") + "\n";
+ });
+ 
+ const a = document.createElement("a");
+ a.href = URL.createObjectURL(new Blob([csv], {type: "text/csv"}));
+ a.download = "Aurus_Certification_Tracker.csv";
+ a.click();
+ showToast("Download Started");
+}
+
+// Initial render
+render();
+</script>
+</body>
+</html>
