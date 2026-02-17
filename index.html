@@ -13,92 +13,92 @@
   --border-color: #bdc3c7;
 }
 
-/* Adjusted padding since sidebar is gone */
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); margin: 0; padding: 20px 20px 80px 20px; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-color); margin: 0; padding: 20px 20px 40px 40px;
+}
+
 h1 { margin: 0; color: var(--text-dark); }
-.section-title { color: #2c3e50; margin-top: 20px; margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; gap: 10px; }
+.section-title {
+  color: #2c3e50; margin-top: 30px; margin-bottom: 10px; font-size: 20px; display: flex; align-items: center; gap: 10px;
+}
 
 /* HEADER & DASHBOARD */
-.header-container { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; }
-.dashboard { display: flex; gap: 15px; margin-top: 10px; }
-.stat-box { background: #fff; padding: 8px 15px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); font-size: 13px; font-weight: bold; color: var(--text-dark); border-left: 5px solid #3498db; }
+.header-container { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
+.dashboard { display: flex; gap: 15px; margin-top: 12px; }
+.stat-box {
+  background: #fff; padding: 10px 18px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); font-size: 14px; font-weight: bold; color: var(--text-dark); border-left: 5px solid #3498db;
+}
 .stat-box:nth-child(2) { border-left-color: #00c875; } 
 .stat-box:nth-child(3) { border-left-color: #fdab3d; } 
 .stat-box:nth-child(4) { border-left-color: #e2445c; } 
 
 .controls { display: flex; gap: 10px; align-items: center; }
-#searchInput { padding: 9px; border: 1px solid var(--border-color); border-radius: 5px; width: 180px; outline: none; font-size: 13px; }
+#searchInput { padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; width: 200px; outline: none; font-size: 14px; }
 #searchInput:focus { border-color: #3498db; }
-.main-btn { background: #3498db; color: #fff; border: none; padding: 9px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; }
+
+.main-btn {
+  background: #3498db; color: #fff; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s;
+}
 .main-btn:hover { filter: brightness(1.1); }
 .export-btn { background: var(--excel-green); }
 
-/* EXCEL FORMATTING TOOLBAR */
-.formatting-toolbar { display: flex; align-items: center; gap: 8px; background: #fff; padding: 8px 15px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #e0e0e0; flex-wrap: wrap; }
-.toolbar-divider { width: 1px; height: 24px; background: #bdc3c7; margin: 0 4px; }
-.tool-select { padding: 4px; border: 1px solid #bdc3c7; border-radius: 3px; font-size: 13px; outline: none; cursor: pointer; }
-.tool-btn { background: transparent; border: 1px solid transparent; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 14px; color: #333; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
-.tool-btn:hover { background: #ecf0f1; border-color: #bdc3c7; }
-.tool-color-picker { width: 28px; height: 28px; border: none; cursor: pointer; padding: 0; background: transparent; }
-
-/* CHARTS SECTION */
-#chartContainer { display:none; padding: 20px; background: white; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 1px solid var(--border-color); }
-.chart-bar-container { display:flex; height: 35px; border-radius: 6px; overflow: hidden; margin-top: 15px; background: #ecf0f1; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-.chart-segment { display:flex; align-items:center; justify-content:center; color: white; font-size: 12px; font-weight: bold; transition: width 0.5s ease-in-out; white-space: nowrap; overflow: hidden; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
-
-/* FLOATING SCROLL BUTTONS */
-.scroll-float { position: fixed; top: 50%; transform: translateY(-50%); width: 40px; height: 60px; background: rgba(44, 62, 80, 0.8); color: white; border: none; font-size: 20px; cursor: pointer; z-index: 1000; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: 0.2s; backdrop-filter: blur(4px); }
-.scroll-float:hover { background: rgba(52, 152, 219, 1); width: 45px; }
-.scroll-float.left { left: 5px; }
-.scroll-float.right { right: 5px; }
+/* SIDEBAR */
+#excelSidebar {
+  position: fixed; left: -260px; top: 0; width: 260px; height: 100vh; background: #2c3e50; color: #fff; display: none; flex-direction: column; transition: left 0.3s; z-index: 1000; box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+}
+#excelSidebar.active, #excelSidebar:hover { left: 0; }
+#sidebarTrigger {
+  position: absolute; right: -30px; top: 50%; transform: translateY(-50%); width: 30px; height: 80px; background: #2c3e50; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 0 8px 8px 0; box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+.sidebar-section { padding: 15px 20px 5px; font-size: 12px; color: #bdc3c7; text-transform: uppercase; }
+.sidebar-btn {
+  margin: 5px 20px; padding: 10px 15px; border: none; background: #34495e; color: #fff; cursor: pointer; border-radius: 4px; font-weight: bold; text-align: left; transition: 0.2s;
+}
+.sidebar-btn:hover { background: #3498db; padding-left: 20px; }
+.sidebar-btn.danger { background: #c0392b; }
+.sidebar-btn.danger:hover { background: #e74c3c; padding-left: 15px; }
+.sidebar-btn.save-btn { margin-top: auto; margin-bottom: 30px; background: #27ae60; text-align: center; font-size: 16px; padding: 15px;}
+.sidebar-btn.save-btn:hover { background: #2ecc71; padding-left: 15px; }
 
 /* TABLE & SCROLLER */
-.table-wrapper { overflow-x: scroll; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-radius: 8px; background: #fff; max-height: 45vh; margin-bottom: 25px; padding-bottom: 5px; position: relative; }
-.table-wrapper::-webkit-scrollbar { height: 14px; width: 14px; }
-.table-wrapper::-webkit-scrollbar-track { background: #e8ecef; border-radius: 0 0 8px 8px; }
-.table-wrapper::-webkit-scrollbar-thumb { background: #95a5a6; border-radius: 8px; border: 3px solid #e8ecef;}
-.table-wrapper::-webkit-scrollbar-thumb:hover { background: #7f8c8d; }
-table { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff; min-width: 1400px; }
-th, td { border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 6px 10px; font-size: 13px; text-align: center; white-space: nowrap; height: 24px; position: relative; }
-th { position: sticky; color: #fff; font-size: 13px; z-index: 3; }
-.sort-header th { height: 35px; top: 0; cursor: pointer; user-select: none; background: #34495e; border-top: 1px solid var(--border-color); }
-.filter-row th { top: 35px; background: #ecf0f1 !important; padding: 5px; border-top: none; z-index: 2;}
-.col-filter { width: 100%; box-sizing: border-box; padding: 4px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
+.table-wrapper {
+  overflow-x: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-radius: 8px; background: #fff; max-height: 50vh; margin-bottom: 20px; padding-bottom: 5px;
+}
+.table-wrapper::-webkit-scrollbar { height: 12px; }
+.table-wrapper::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px; margin: 0 10px; }
+.table-wrapper::-webkit-scrollbar-thumb { background: #bdc3c7; border-radius: 8px; border: 2px solid #f1f1f1;}
+.table-wrapper::-webkit-scrollbar-thumb:hover { background: #95a5a6; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; min-width: 1400px; }
+th, td { border: 1px solid var(--border-color); padding: 8px 10px; font-size: 13px; text-align: center; white-space: nowrap; }
+th { position: sticky; color: #fff; font-size: 14px; box-shadow: 0 2px 2px -1px rgba(0,0,0,0.4); z-index: 3; }
+
+/* DYNAMIC HEADER STYLES */
+.sort-header th { height: 35px; top: 0; cursor: pointer; user-select: none; background: #34495e; }
+.sort-header th:hover { filter: brightness(0.9); }
+.filter-row th { top: 55px; background: #ecf0f1 !important; padding: 5px; border-top: none; z-index: 2;}
+.col-filter { width: 100%; box-sizing: border-box; padding: 6px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
 .col-filter:focus { border-color: #3498db; }
 
-/* COLUMN RESIZER */
-.resizer { position: absolute; right: -3px; top: 0; bottom: 0; width: 6px; cursor: col-resize; z-index: 10; background: transparent; }
-.resizer:hover, .resizer.resizing { background: var(--excel-green); }
+/* DEFAULT COLUMN COLORS (Overrides applied dynamically) */
+.sort-header th:nth-child(1), .sort-header th:nth-child(3) { background: #2980b9; }
+.sort-header th:nth-child(2) { background: #c0392b; }
+.sort-header th:nth-child(4), .sort-header th:nth-child(5) { background: #8e44ad; }
+.sort-header th:nth-child(6) { background: #d35400; }
+.sort-header th:nth-child(7) { background: #7f8c8d; }
+.sort-header th:nth-child(8) { background: #9b59b6; }
+.sort-header th:nth-child(9), .sort-header th:nth-child(10) { background: #27ae60; }
 
-/* FROZEN FIRST COLUMN */
-th:first-child, td:first-child { position: sticky; left: 0; z-index: 4; border-left: 1px solid var(--border-color); }
-.sort-header th:first-child { z-index: 5; } 
-.filter-row th:first-child { z-index: 5; }
+td:nth-child(1) { background: #ebf5fb; }
+td:nth-child(2) { background: #fadbd8; }
+td:nth-child(3) { background: #d6eaf8; font-weight: 500;}
+td:nth-child(4) { background: #e8daef; }
+td:nth-child(5) { background: #d2b4de; }
+td:nth-child(7) { background: #eaeded; }
+td:nth-child(8) { background: #c39bd3; }
 
-/* AURUS MODE SPECIFIC STYLING */
-body.aurus-mode .sort-header th:nth-child(1), body.aurus-mode .sort-header th:nth-child(3) { background: #2980b9; }
-body.aurus-mode .sort-header th:nth-child(2) { background: #c0392b; }
-body.aurus-mode .sort-header th:nth-child(4), body.aurus-mode .sort-header th:nth-child(5) { background: #8e44ad; }
-body.aurus-mode .sort-header th:nth-child(6) { background: #d35400; }
-body.aurus-mode .sort-header th:nth-child(7) { background: #7f8c8d; }
-body.aurus-mode .sort-header th:nth-child(8) { background: #9b59b6; }
-body.aurus-mode .sort-header th:nth-child(9), body.aurus-mode .sort-header th:nth-child(10) { background: #27ae60; }
-body.aurus-mode td:nth-child(1) { background: #ebf5fb; font-weight: bold; }
-body.aurus-mode td:nth-child(2) { background: #fadbd8; }
-body.aurus-mode td:nth-child(3) { background: #d6eaf8; font-weight: 500;}
-body.aurus-mode td:nth-child(4) { background: #e8daef; }
-body.aurus-mode td:nth-child(5) { background: #d2b4de; }
-body.aurus-mode td:nth-child(6) { font-weight: bold; padding: 2px; } 
-body.aurus-mode td:nth-child(7) { background: #eaeded; }
-body.aurus-mode td:nth-child(8) { background: #c39bd3; }
-
-/* PLAIN EXCEL MODE SPECIFIC STYLING */
-body:not(.aurus-mode) .sort-header th { background: #f1f3f4; color: #333; font-weight: bold; border-color: #ccc; }
-body:not(.aurus-mode) th, body:not(.aurus-mode) td { border-color: #ccc; }
-body:not(.aurus-mode) td:first-child { background: #fdfdfd; font-weight: bold; border-right: 2px solid #bdc3c7; }
-body:not(.aurus-mode) table { min-width: 100%; }
-
-/* STATUS COLORS */
+/* PROJECT & WEEKLY STATUS COLORS */
 .status-working { background: #fdab3d !important; color: #fff !important; font-weight: bold; }
 .status-done { background: #00c875 !important; color: #fff !important; font-weight: bold; }
 .status-stuck { background: #e2445c !important; color: #fff !important; font-weight: bold; }
@@ -109,101 +109,101 @@ body:not(.aurus-mode) table { min-width: 100%; }
 .week-waiting { background: #aed6f1 !important; font-weight: bold; }
 .row-orange td { background: #f39c12 !important; font-weight: bold; color: black; }
 
-/* DYNAMIC INPUTS */
-select.dynamic-dropdown { width: 100%; height: 100%; border: none; font-weight: inherit; color: inherit; font-family: inherit; font-size: inherit; background: transparent; outline: none; cursor: pointer; appearance: none; text-align: center; text-align-last: center; }
+/* DYNAMIC ELEMENTS */
+select.dynamic-dropdown {
+  width: 100%; height: 100%; border: none; font-weight: inherit; color: inherit; font-family: inherit; font-size: inherit;
+  background: transparent; outline: none; cursor: pointer; appearance: none; text-align: center; text-align-last: center;
+}
 select.dynamic-dropdown option { background: #fff; color: #000; font-weight: normal; }
-select.dynamic-dropdown option.add-new-opt { background: #ecf0f1; font-weight: bold; color: #2980b9; }
 
-/* ADMIN ONE-CLICK EDIT STYLING */
-td[contenteditable="true"] { cursor: text; outline: 3px solid #3498db !important; outline-offset: -2px; background: #fff !important; color: #000 !important; }
-td.active-cell { outline: 3px solid var(--excel-green) !important; outline-offset: -2px; box-shadow: inset 0 0 8px rgba(0,0,0,0.1); }
+td[contenteditable="true"] { cursor: text; }
+td[contenteditable="true"]:focus { outline: 3px solid var(--excel-green); outline-offset: -2px; box-shadow: inset 0 0 8px rgba(0,0,0,0.1); }
 tr.active-row td { filter: brightness(0.92); }
 .date-cell { cursor: pointer; position: relative; }
 .date-cell:hover::after { content: "📅"; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
 
-/* BOTTOM SHEET TABS */
-.sheet-tabs-bar { position: fixed; bottom: 0; left: 0; width: 100%; height: 40px; background: #ecf0f1; border-top: 1px solid #bdc3c7; display: flex; align-items: flex-end; z-index: 1000; padding-left: 15px; overflow-x: auto; }
-.sheet-tab { padding: 8px 25px; background: #bdc3c7; margin-right: 2px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 13px; font-weight: bold; color: #333; border: 1px solid #bdc3c7; border-bottom: none; user-select: none; }
-.sheet-tab.active { background: #fff; color: var(--excel-green); border-color: #bdc3c7; padding-bottom: 9px; margin-bottom: -1px; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
-.sheet-tab:hover:not(.active) { background: #d5dbdb; }
-.add-sheet-btn { padding: 8px 15px; cursor: pointer; color: #2c3e50; font-weight: bold; font-size: 16px; line-height: 1; user-select: none; }
-.add-sheet-btn:hover { color: var(--excel-green); }
-
-/* RIGHT-CLICK CONTEXT MENUS */
-.context-menu { position: absolute; background: #fff; border: 1px solid var(--border-color); box-shadow: 2px 4px 12px rgba(0,0,0,0.2); z-index: 10000; border-radius: 6px; padding: 8px 0; min-width: 200px; list-style: none; margin: 0; display: none; }
+/* RIGHT-CLICK CONTEXT MENU */
+.context-menu {
+  position: absolute; background: #fff; border: 1px solid var(--border-color); box-shadow: 2px 4px 12px rgba(0,0,0,0.2);
+  z-index: 10000; border-radius: 6px; padding: 8px 0; min-width: 200px; list-style: none; margin: 0; display: none;
+}
 .context-menu li { padding: 8px 20px; font-size: 13px; cursor: pointer; color: #2c3e50; font-weight: 500; display: flex; align-items: center; gap: 10px;}
 .context-menu li:hover { background: #f4f7f6; color: #3498db; }
 .context-menu li.danger { color: #e74c3c; }
 .context-menu li.danger:hover { background: #fdf5f5; }
 .context-menu hr { border: none; border-top: 1px solid #ecf0f1; margin: 6px 0; }
 
-/* MODALS */
-.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10001; align-items: center; justify-content: center; }
-.modal-box { background: #fff; padding: 25px; border-radius: 8px; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+/* MODAL STYLES */
+.modal-overlay {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); z-index: 10001; align-items: center; justify-content: center;
+}
+.modal-box {
+  background: #fff; padding: 25px; border-radius: 8px; width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
 .modal-box h3 { margin-top: 0; color: #2c3e50; }
 .modal-box label { font-size: 13px; font-weight: bold; color: #7f8c8d; display: block; margin-top: 15px; margin-bottom: 5px;}
-.modal-box select#formatCategory { width: 100%; padding: 4px; border: 1px solid #bdc3c7; box-sizing: border-box; font-family: inherit; outline: none; }
-.modal-box select#formatCategory option { padding: 5px 8px; cursor: pointer; }
-.modal-box select#formatCategory option:checked { background: #3498db; color: #fff; }
-.modal-box input { width: 100%; padding: 8px; border: 1px solid #bdc3c7; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
+.modal-box select, .modal-box input {
+  width: 100%; padding: 8px; border: 1px solid #bdc3c7; border-radius: 4px; box-sizing: border-box; font-family: inherit;
+}
 .modal-actions { margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
 .modal-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
 .modal-btn.save { background: #27ae60; color: #fff; }
 .modal-btn.cancel { background: #ecf0f1; color: #333; }
 
-/* AUTOCOMPLETE & TOAST */
-.autocomplete-items { position: absolute; border: 1px solid #bdc3c7; border-radius: 4px; z-index: 9999; background-color: #fff; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+/* AUTOCOMPLETE */
+.autocomplete-items {
+  position: absolute; border: 1px solid #bdc3c7; border-radius: 4px; z-index: 9999; background-color: #fff; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
 .autocomplete-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #ecf0f1; font-size: 13px; color: #2c3e50; }
-.autocomplete-item:hover { background: #f4f7f6; color: #3498db; }
+.autocomplete-item:hover { background-color: #f4f7f6; color: #3498db; }
 .autocomplete-item strong { color: #2980b9; }
-.add-new-item { color: var(--excel-green) !important; font-weight: bold; }
 
-#toast { visibility: hidden; min-width: 250px; background: #333; color: #fff; text-align: center; border-radius: 5px; padding: 16px; position: fixed; z-index: 5000; left: 50%; bottom: 60px; transform: translateX(-50%); font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
-#toast.show { visibility: visible; opacity: 1; bottom: 80px; }
+/* TOAST NOTIFICATION */
+#toast {
+  visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 5px; padding: 16px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s;
+}
+#toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 </style>
 </head>
 
-<body class="aurus-mode">
+<body>
 
 <div id="toast">Notification text</div>
 
-<button class="scroll-float left" onclick="scrollTables(-400)">⬅️</button>
-<button class="scroll-float right" onclick="scrollTables(400)">➡️</button>
-
-<div class="sheet-tabs-bar" id="sheetTabsBar"></div>
-
-<div id="formatModal" class="modal-overlay">
+<div id="colSettingsModal" class="modal-overlay">
   <div class="modal-box">
-    <h3>⚙️ Data Format Settings</h3>
-    <p id="modalTargetLabel" style="margin:0; font-size:13px; color:#3498db; font-weight:bold;"></p>
-    <label>Data Category</label>
-    <select id="formatCategory" size="11" onchange="toggleDropdownOptions()">
-      <option value="Text">Text</option><option value="Number">Number</option><option value="Percent">Percent</option>
-      <option value="Currency">Currency</option><option value="Date">Date</option><option value="Time">Time</option>
-      <option value="Scientific">Scientific</option><option value="Fraction">Fraction</option><option value="Boolean Value">Boolean Value</option>
-      <option value="Dropdown">User-defined (Dropdown)</option>
+    <h3>⚙️ Column Settings</h3>
+    <p id="modalColName" style="margin:0; font-size:13px; color:#3498db; font-weight:bold;"></p>
+    
+    <label>Column Data Type:</label>
+    <select id="colTypeSelect" onchange="toggleDropdownOptions()">
+      <option value="text">📝 Free Text (Default)</option>
+      <option value="date">📅 Date Picker</option>
+      <option value="dropdown">🔽 Select Dropdown</option>
     </select>
-    <div id="dropdownOptionsDiv" style="display:none; margin-top: 10px;">
+    
+    <div id="dropdownOptionsDiv" style="display:none;">
       <label>Dropdown Options (comma separated):</label>
       <input type="text" id="colDropdownOptions" placeholder="e.g. Yes, No, Waiting, NA">
+      <small style="font-size:11px; color:#7f8c8d;">Separate choices with a comma.</small>
     </div>
+    
     <div class="modal-actions">
-      <button class="modal-btn cancel" onclick="closeFormatModal()">Cancel</button>
-      <button class="modal-btn save" onclick="saveFormatSettings()">Apply Settings</button>
+      <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn save" onclick="saveColumnSettings()">Save Settings</button>
     </div>
   </div>
 </div>
 
 <ul id="contextMenu" class="context-menu">
   <li class="ctx-header" onclick="renameColumnContext()">✏️ Rename Column</li>
-  <li class="ctx-header" onclick="openFormatModal('column')">⚙️ Column Data Type</li>
+  <li class="ctx-header" onclick="openColumnSettingsContext()">⚙️ Column Settings (Type)</li>
   <hr class="ctx-header">
   <li class="ctx-header" onclick="addColumnContext(0)">➕ Insert Column Left</li>
   <li class="ctx-header" onclick="addColumnContext(1)">➕ Insert Column Right</li>
   <li class="ctx-header danger" onclick="deleteColumnContext()">🗑️ Delete Column</li>
   
-  <li class="ctx-cell" onclick="openFormatModal('cell')">🔢 Format Cell Data Type</li>
-  <hr class="ctx-cell">
   <li class="ctx-cell" onclick="copyCell()">📋 Copy</li>
   <li class="ctx-cell" onclick="pasteCell()">📥 Paste</li>
   <li class="ctx-cell" onclick="clearCell()">🧹 Clear Content</li>
@@ -215,18 +215,21 @@ tr.active-row td { filter: brightness(0.92); }
   <li class="ctx-row" onclick="moveRowContext(-1)">🔼 Move Row Up</li>
   <li class="ctx-row" onclick="moveRowContext(1)">🔽 Move Row Down</li>
   <li class="ctx-row danger" onclick="deleteRowContext()">🗑️ Delete Row</li>
+  <hr class="ctx-row">
+  
+  <li class="ctx-cell" onclick="toggleFormat('b')"><b>B</b> Bold Text</li>
+  <li class="ctx-cell" onclick="toggleFormat('i')"><i>I</i> Italic Text</li>
+  <li class="ctx-cell" onclick="setAlignment('left')">⬅️ Align Left</li>
+  <li class="ctx-cell" onclick="setAlignment('center')">↔️ Align Center</li>
+  <li class="ctx-cell" onclick="triggerColorPicker()">🎨 Change Cell Color</li>
+  <li class="ctx-cell" onclick="clearFormat()">🚫 Clear Formatting</li>
 </ul>
-
-<ul id="tabContextMenu" class="context-menu">
-  <li onclick="renameActiveTab()">✏️ Rename Sheet</li>
-  <li onclick="duplicateActiveTab()">🗂️ Duplicate Sheet</li>
-  <li class="danger" onclick="deleteActiveTab()">🗑️ Delete Sheet</li>
-</ul>
+<input type="color" id="hiddenColorPicker" style="display:none;" onchange="applyCellColor(this.value)">
 
 <div class="header-container">
   <div>
-    <h1 id="mainTitle">Aurus Certification Tracker</h1>
-    <div class="dashboard" id="mainDashboard">
+    <h1>Aurus Certification Tracker</h1>
+    <div class="dashboard">
       <div class="stat-box">📊 Total: <span id="statTotal">0</span></div>
       <div class="stat-box">✅ Done: <span id="statComp">0</span></div>
       <div class="stat-box">⏳ Working on it: <span id="statProg">0</span></div>
@@ -234,71 +237,25 @@ tr.active-row td { filter: brightness(0.92); }
     </div>
   </div>
   <div class="controls">
-    <button class="main-btn save-btn" id="saveHeaderBtn" onclick="saveData()" style="display:none; background:#27ae60;">💾 Save Formats</button>
-    <button class="main-btn print-btn" onclick="toggleCharts()" style="background:#8e44ad">📊 Toggle Charts</button>
-    <button class="main-btn export-btn" onclick="exportCSV()">📤 Export Sheet</button>
-    <input type="text" id="searchInput" placeholder="🔍 Search current sheet..." oninput="renderBodies()">
+    <button class="main-btn export-btn" onclick="exportCSV()">📤 Export CSV</button>
+    <input type="text" id="searchInput" placeholder="🔍 Global Search..." oninput="renderBodies()">
     <button id="adminBtn" class="main-btn" onclick="toggleAdmin()">🔒 Enable Admin Mode</button>
   </div>
 </div>
 
-<div id="chartContainer">
-    <h3 style="margin:0; color:#2c3e50;">📊 Sheet Status Distribution</h3>
-    <div class="chart-bar-container">
-        <div id="chartDone" class="chart-segment" style="background: #00c875; width: 0%;"></div>
-        <div id="chartWorking" class="chart-segment" style="background: #fdab3d; width: 0%;"></div>
-        <div id="chartStuck" class="chart-segment" style="background: #e2445c; width: 0%;"></div>
-        <div id="chartYet" class="chart-segment" style="background: #c4c4c4; width: 0%;"></div>
-    </div>
-    <div style="display:flex; justify-content:center; gap: 20px; margin-top: 15px; font-size: 13px; font-weight:bold; color:#2c3e50;">
-        <span><span style="color:#00c875; font-size:16px;">■</span> Done</span>
-        <span><span style="color:#fdab3d; font-size:16px;">■</span> Working on it</span>
-        <span><span style="color:#e2445c; font-size:16px;">■</span> Stuck</span>
-        <span><span style="color:#c4c4c4; font-size:16px;">■</span> Yet to Start</span>
-    </div>
+<h2 class="section-title">⏳ In-Progress & Queued Projects</h2>
+<div class="table-wrapper">
+<table id="inProgressTable"><thead></thead><tbody id="tbody-inprogress"></tbody></table>
 </div>
 
-<div class="formatting-toolbar" id="formatToolbar" style="display: none;">
-  <select id="toolFont" class="tool-select" onchange="applyToolbarFormat('ff', this.value)" title="Font">
-    <option value="Segoe UI">Segoe UI</option><option value="Arial">Arial</option><option value="Calibri">Calibri</option><option value="Times New Roman">Courier</option>
-  </select>
-  <select id="toolSize" class="tool-select" onchange="applyToolbarFormat('fs', this.value)" title="Font Size">
-    <option value="11px">11 pt</option><option value="12px">12 pt</option><option value="13px" selected>13 pt</option><option value="14px">14 pt</option><option value="16px">16 pt</option>
-  </select>
-  <div class="toolbar-divider"></div>
-  <button class="tool-btn" onclick="applyToolbarFormat('b', 'toggle')" title="Bold"><b>B</b></button>
-  <button class="tool-btn" onclick="applyToolbarFormat('i', 'toggle')" title="Italic"><i>I</i></button>
-  <button class="tool-btn" onclick="applyToolbarFormat('u', 'toggle')" title="Underline"><u>U</u></button>
-  <div class="toolbar-divider"></div>
-  <div style="display:flex; flex-direction:column; align-items:center;" title="Text Color">
-    <span style="font-size:10px; font-weight:bold; color:#e74c3c;">A</span>
-    <input type="color" id="toolTextColor" class="tool-color-picker" style="height:12px;" onchange="applyToolbarFormat('c', this.value)">
-  </div>
-  <div style="display:flex; flex-direction:column; align-items:center;" title="Fill Color">
-    <span style="font-size:10px; font-weight:bold;">🪣</span>
-    <input type="color" id="toolBgColor" class="tool-color-picker" style="height:12px;" onchange="applyToolbarFormat('bg', this.value)">
-  </div>
-  <div class="toolbar-divider"></div>
-  <button class="tool-btn" onclick="applyToolbarFormat('a', 'left')" title="Align Left">⬅️</button>
-  <button class="tool-btn" onclick="applyToolbarFormat('a', 'center')" title="Align Center">↔️</button>
-  <button class="tool-btn" onclick="applyToolbarFormat('a', 'right')" title="Align Right">➡️</button>
-  <div class="toolbar-divider"></div>
-  <button class="tool-btn" onclick="applyToolbarFormat('clear', null)" title="Clear Formats">🚫</button>
-</div>
-
-<div id="tableContainer">
-  <h2 class="section-title" id="title1">⏳ In-Progress & Queued Projects</h2>
-  <div class="table-wrapper" id="wrap1"><table id="mainTable"><thead></thead><tbody id="tbody-main"></tbody></table></div>
-
-  <div id="completedTableWrapper">
-      <h2 class="section-title" id="title2">✅ Completed Projects</h2>
-      <div class="table-wrapper" id="wrap2"><table id="completedTable"><thead></thead><tbody id="tbody-completed"></tbody></table></div>
-  </div>
+<h2 class="section-title">✅ Completed Projects</h2>
+<div class="table-wrapper">
+<table id="completedTable"><thead></thead><tbody id="tbody-completed"></tbody></table>
 </div>
 
 <script>
-// INITIAL DATA SETUP
-const defaultTeamMembers = [
+// INITIAL DATA CONSTANTS
+const teamMembersList = [
   "Nitesh Kharose", "Harshal Chaudhari", "Hemantkumar Nikole", "Nagamani Gatti", "Vaishnavi Mate", "Ashrin Shaik", 
   "Praneetha Chandragiri", "Rushikesh Kadam", "Dipak Pawar", "Rohit Sonawane", "Prathamesh Chitodikar", "Prakash Borude",
   "Nilesh Dhongade", "Kalyani Wabale", "Raghav Naulakha", "Vishal Gaikwad", "Arjav Jain", "Akash deshmukh", "Tushar Phatak", 
@@ -311,10 +268,16 @@ const defaultTeamMembers = [
   "Kalyani Raut", "Akhila Ravi"
 ];
 
-let teamMembersList = localStorage.getItem("trackerTeamMembers_v16") ? JSON.parse(localStorage.getItem("trackerTeamMembers_v16")) : [...defaultTeamMembers];
-
 const initialHeaders = ["SR NO", "EP ID", "Certification Name", "Start Date", "End Date", "Project Status", "Developer Name", "Team Lead Name", "Last Week", "9–13 Feb"];
-const initialMeta = { 3: { type: 'Date' }, 4: { type: 'Date' }, 5: { type: 'Dropdown', options: ['Working on it', 'Done', 'Stuck', 'Yet to Start'] }, 8: { type: 'Dropdown', options: ['YES', 'NO', 'NA', 'Waiting'] }, 9: { type: 'Dropdown', options: ['YES', 'NO', 'NA', 'Waiting'] } };
+
+const initialMeta = {
+    3: { type: 'date' },
+    4: { type: 'date' },
+    5: { type: 'dropdown', options: ['Working on it', 'Done', 'Stuck', 'Yet to Start'] },
+    8: { type: 'dropdown', options: ['YES', 'NO', 'NA', 'Waiting'] },
+    9: { type: 'dropdown', options: ['YES', 'NO', 'NA', 'Waiting'] }
+};
+
 const rawInitialData = [
 ["1","EP-0128","Chase ISO Wiseasy R1 PTS V6 [04157999]","21/09/25","17/02/26","Working on it","Sakshi Gudmewar","Vrushabh Munde","YES","YES"],
 ["2","EP-0132","Flexa Wallet Instore Customer Presented Code","15/11/25","20/02/26","Working on it","Naga Mani Gatti","Harshal Chaudhari","YES","YES"],
@@ -354,154 +317,47 @@ const rawInitialData = [
 ["36","","KPN Processor Integration","","","Yet to Start","Ishita","Hemant Nikole","","YES"]
 ];
 
-// --- WORKBOOK ENGINE ---
-let WORKBOOK = localStorage.getItem("trackerWorkbook_v16") ? JSON.parse(localStorage.getItem("trackerWorkbook_v16")) : 
-               [{ id: 1, name: "Main Tracker", type: "aurus", headers: [...initialHeaders], data: JSON.parse(JSON.stringify(rawInitialData)), formats: {}, meta: JSON.parse(JSON.stringify(initialMeta)), colWidths: {} }];
-let currentSheetIndex = 0;
+// STATE MANAGEMENT
+let HEADERS = localStorage.getItem("trackerHeaders_v8") ? JSON.parse(localStorage.getItem("trackerHeaders_v8")) : [...initialHeaders];
+let DATA = localStorage.getItem("trackerData_v8") ? JSON.parse(localStorage.getItem("trackerData_v8")) : JSON.parse(JSON.stringify(rawInitialData));
+let FORMATS = localStorage.getItem("trackerFormats_v8") ? JSON.parse(localStorage.getItem("trackerFormats_v8")) : {};
+let COLUMN_META = localStorage.getItem("trackerColMeta_v8") ? JSON.parse(localStorage.getItem("trackerColMeta_v8")) : JSON.parse(JSON.stringify(initialMeta));
 
-let HEADERS, DATA, FORMATS, COLUMN_META, IS_PLAIN, COL_WIDTHS;
-let admin = false; let activeRow = null; let sortCol = -1, sortAsc = true;
-let contextTarget = null; let formatTargetType = 'column'; let clipboardData = null; 
-let activeCellCoords = { rIdx: null, cIdx: null }; let targetTabIdx = null;
-
-// --- AUTO-HIDE CONTEXT MENU LOGIC ---
-let contextMenuTimer = null;
-function startContextMenuTimer() {
-  clearContextMenuTimer();
-  contextMenuTimer = setTimeout(hideAllMenus, 5000);
-}
-function clearContextMenuTimer() {
-  if (contextMenuTimer) {
-    clearTimeout(contextMenuTimer);
-    contextMenuTimer = null;
-  }
-}
-function hideAllMenus() {
-  document.getElementById("contextMenu").style.display = "none";
-  document.getElementById("tabContextMenu").style.display = "none";
-  clearContextMenuTimer();
-}
-
-function loadActiveSheet() {
-    let sheet = WORKBOOK[currentSheetIndex];
-    HEADERS = sheet.headers; DATA = sheet.data; FORMATS = sheet.formats || {}; 
-    COLUMN_META = sheet.meta || {}; COL_WIDTHS = sheet.colWidths || {};
-    IS_PLAIN = sheet.type === 'plain';
-    activeCellCoords = { rIdx: null, cIdx: null }; activeRow = null; sortCol = -1;
-
-    if(IS_PLAIN) {
-        document.body.classList.remove('aurus-mode');
-        document.getElementById('title1').style.display = 'none';
-        document.getElementById('completedTableWrapper').style.display = 'none';
-        document.getElementById('mainDashboard').style.display = 'none';
-        document.getElementById('chartContainer').style.display = 'none';
-        document.getElementById('mainTitle').innerText = sheet.name;
-    } else {
-        document.body.classList.add('aurus-mode');
-        document.getElementById('title1').style.display = 'flex';
-        document.getElementById('completedTableWrapper').style.display = 'block';
-        document.getElementById('mainDashboard').style.display = 'flex';
-        document.getElementById('mainTitle').innerText = "Aurus Certification Tracker";
-    }
-    renderTabs(); renderHeaders(); renderBodies();
-}
-
-function syncActiveSheetToWorkbook() {
-    WORKBOOK[currentSheetIndex].headers = HEADERS; WORKBOOK[currentSheetIndex].data = DATA;
-    WORKBOOK[currentSheetIndex].formats = FORMATS; WORKBOOK[currentSheetIndex].meta = COLUMN_META;
-    WORKBOOK[currentSheetIndex].colWidths = COL_WIDTHS;
-}
+let admin = false, activeRow = null;
+let sortCol = -1, sortAsc = true;
+let contextTarget = null;
+let clipboardData = null; // Internal copy/paste memory
 
 // UTILS
 function showToast(msg, type="success") {
-  const t = document.getElementById("toast"); t.innerText = msg;
-  t.style.background = type === "success" ? "#27ae60" : "#e74c3c";
-  t.className = "show"; setTimeout(() => { t.className = t.className.replace("show", ""); }, 3000);
+  const toast = document.getElementById("toast"); toast.innerText = msg;
+  toast.style.background = type === "success" ? "#27ae60" : "#e74c3c";
+  toast.className = "show"; setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
 }
-function parseDate(dmy) { if(!dmy || dmy === "NA") return ""; let p = dmy.split('/'); if(p.length === 3) return `${p[2].length === 2 ? "20"+p[2] : p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}`; return "";}
-function formatDate(ymd) { if(!ymd) return ""; let p = ymd.split('-'); if(p.length===3) return `${p[2]}/${p[1]}/${p[0].slice(-2)}`; return ""; }
+function parseDate(dmy) {
+    if(!dmy || dmy === "NA") return "";
+    let p = dmy.split('/'); if(p.length === 3) return `${p[2].length === 2 ? "20"+p[2] : p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}`;
+    return "";
+}
+function formatDate(ymd) {
+    if(!ymd) return ""; let p = ymd.split('-'); if(p.length === 3) return `${p[2]}/${p[1]}/${p[0].slice(-2)}`;
+    return "";
+}
 function getTextColorForBg(hex) {
-    if(!hex) return "#000"; let c = hex.charAt(0) === '#' ? hex.substring(1, 7) : hex;
-    let r = parseInt(c.substring(0, 2), 16), g = parseInt(c.substring(2, 4), 16), b = parseInt(c.substring(4, 6), 16);
+    if(!hex) return "#000";
+    let color = hex.charAt(0) === '#' ? hex.substring(1, 7) : hex;
+    let r = parseInt(color.substring(0, 2), 16), g = parseInt(color.substring(2, 4), 16), b = parseInt(color.substring(4, 6), 16);
     return (((r * 299) + (g * 587) + (b * 114)) / 1000) > 128 ? '#000000' : '#ffffff';
-}
-function applyDataFormat(rawVal, category) {
-    if(!rawVal || rawVal.trim() === "") return rawVal;
-    let num = parseFloat(rawVal.replace(/[$,%]/g, ''));
-    switch(category) {
-        case 'Number': return !isNaN(num) ? Number(num).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : rawVal;
-        case 'Currency': return !isNaN(num) ? Number(num).toLocaleString('en-US', {style: 'currency', currency: 'USD'}) : rawVal;
-        case 'Percent': return !isNaN(num) ? Number(num).toFixed(2) + "%" : rawVal;
-        case 'Scientific': return !isNaN(num) ? Number(num).toExponential(2) : rawVal;
-        case 'Boolean Value': let b = rawVal.toString().toLowerCase().trim(); if(['true', '1', 'yes', 'y'].includes(b)) return "TRUE"; if(['false', '0', 'no', 'n'].includes(b)) return "FALSE"; return rawVal;
-        case 'Fraction': if(!isNaN(num)) { let len = num.toString().split('.')[1] ? num.toString().split('.')[1].length : 0; let den = Math.pow(10, len); let numF = num * den; let gcd = function(a,b) { return b ? gcd(b, a%b) : a; }; let f = gcd(numF, den); return (numF/f) + "/" + (den/f); } return rawVal;
-        default: return rawVal; 
-    }
-}
-
-// SCROLL & CHARTS
-function scrollTables(amount) { document.querySelectorAll('.table-wrapper').forEach(w => { w.scrollBy({ left: amount, behavior: 'smooth' }); }); }
-function toggleCharts() {
-    let el = document.getElementById('chartContainer');
-    el.style.display = el.style.display === 'block' ? 'none' : 'block';
-    renderBodies(); 
-}
-
-// RESIZER LOGIC
-let isResizing = false; let currentTh = null; let startX = 0; let startWidth = 0; let resizeColIdx = -1;
-function initResize(e, th, idx) {
-    isResizing = true; currentTh = th; startX = e.pageX; startWidth = th.offsetWidth; resizeColIdx = idx;
-    currentTh.querySelector('.resizer').classList.add('resizing'); e.stopPropagation();
-}
-document.addEventListener('mousemove', e => {
-    if (!isResizing || !currentTh) return;
-    let newWidth = startWidth + (e.pageX - startX);
-    if(newWidth > 30) {
-        COL_WIDTHS[resizeColIdx] = newWidth + 'px';
-        document.querySelectorAll(`th[data-col-idx="${resizeColIdx}"]`).forEach(el => { el.style.width = newWidth + 'px'; el.style.minWidth = newWidth + 'px'; });
-    }
-});
-document.addEventListener('mouseup', () => { 
-    if(isResizing) { currentTh.querySelector('.resizer').classList.remove('resizing'); isResizing = false; currentTh = null; renderBodies(); } 
-});
-
-// TAB ENGINE
-function renderTabs() {
-    let html = ""; WORKBOOK.forEach((sheet, i) => { let active = i === currentSheetIndex ? "active" : ""; html += `<div class="sheet-tab ${active}" onclick="switchSheet(${i})" oncontextmenu="showTabMenu(event, ${i})">${sheet.name}</div>`; });
-    if(admin) html += `<div class="add-sheet-btn" onclick="addSheet()" title="New Plain Sheet">➕</div>`;
-    document.getElementById("sheetTabsBar").innerHTML = html;
-}
-function switchSheet(idx) { if(idx === currentSheetIndex) return; syncActiveSheetToWorkbook(); currentSheetIndex = idx; loadActiveSheet(); }
-function addSheet() {
-    let name = prompt("Sheet Name:", "Sheet " + (WORKBOOK.length + 1)); if(!name) return; syncActiveSheetToWorkbook();
-    let plainHeaders = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]; let plainData = Array(20).fill(null).map(() => Array(10).fill(""));
-    WORKBOOK.push({ id: Date.now(), name: name, type: "plain", headers: plainHeaders, data: plainData, formats: {}, meta: {}, colWidths: {} });
-    currentSheetIndex = WORKBOOK.length - 1; loadActiveSheet(); showToast("Blank Sheet Created");
-}
-function showTabMenu(e, idx) {
-    if(!admin) return; e.preventDefault(); targetTabIdx = idx; const menu = document.getElementById("tabContextMenu");
-    menu.style.display = "block"; menu.style.left = e.pageX + "px"; menu.style.top = "auto"; menu.style.bottom = "40px"; document.getElementById("contextMenu").style.display = "none";
-    startContextMenuTimer();
-}
-function renameActiveTab() { let newName = prompt("Rename Sheet:", WORKBOOK[targetTabIdx].name); if(newName) { WORKBOOK[targetTabIdx].name = newName; renderTabs(); if(IS_PLAIN && targetTabIdx === currentSheetIndex) document.getElementById('mainTitle').innerText = newName; showToast("Sheet Renamed"); } hideAllMenus(); }
-function duplicateActiveTab() { let s = WORKBOOK[targetTabIdx]; WORKBOOK.splice(targetTabIdx + 1, 0, JSON.parse(JSON.stringify({...s, id: Date.now(), name: s.name + " (Copy)"}))); renderTabs(); showToast("Sheet Duplicated"); hideAllMenus(); }
-function deleteActiveTab() {
-    if(WORKBOOK.length <= 1) return showToast("Cannot delete the last sheet!", "error");
-    if(confirm(`Delete sheet "${WORKBOOK[targetTabIdx].name}" forever?`)) { WORKBOOK.splice(targetTabIdx, 1); if(currentSheetIndex >= targetTabIdx && currentSheetIndex > 0) currentSheetIndex--; loadActiveSheet(); showToast("Sheet Deleted", "error"); }
-    hideAllMenus();
 }
 
 // RENDER ENGINE
 function renderHeaders() {
-  ['mainTable', 'completedTable'].forEach(tid => {
-      if(tid === 'completedTable' && IS_PLAIN) return;
+  ['inProgressTable', 'completedTable'].forEach(tid => {
       const thead = document.querySelector(`#${tid} thead`);
       let sortHtml = `<tr class="sort-header">`;
       HEADERS.forEach((h, i) => {
           let arrow = (i === sortCol) ? (sortAsc ? " ▲" : " ▼") : "";
-          let w = COL_WIDTHS[i] ? `width:${COL_WIDTHS[i]}; min-width:${COL_WIDTHS[i]};` : "";
-          let resizer = `<div class="resizer" onmousedown="initResize(event, this.parentElement, ${i})"></div>`;
-          sortHtml += `<th data-col-idx="${i}" style="${w}" onclick="sortTable(${i})" oncontextmenu="return false;">${h}${arrow}${resizer}</th>`;
+          sortHtml += `<th onclick="sortTable(${i})" oncontextmenu="return false;">${h}${arrow}</th>`;
       });
       sortHtml += `</tr><tr class="filter-row">`;
       HEADERS.forEach((h, i) => {
@@ -514,200 +370,148 @@ function renderHeaders() {
 }
 
 function renderBodies() {
- const tbMain = document.getElementById("tbody-main"); const tbComp = document.getElementById("tbody-completed");
- tbMain.innerHTML = ""; if(!IS_PLAIN) tbComp.innerHTML = "";
+ const tbProg = document.getElementById("tbody-inprogress"); const tbComp = document.getElementById("tbody-completed");
+ tbProg.innerHTML = ""; tbComp.innerHTML = "";
  
  const globalQ = document.getElementById("searchInput").value.toLowerCase();
- const inProgF = Array.from(document.querySelectorAll("#mainTable .col-filter")).map(i => i.value.toLowerCase());
- const compF = IS_PLAIN ? [] : Array.from(document.querySelectorAll("#completedTable .col-filter")).map(i => i.value.toLowerCase());
+ const inProgF = Array.from(document.querySelectorAll("#inProgressTable .col-filter")).map(i => i.value.toLowerCase());
+ const compF = Array.from(document.querySelectorAll("#completedTable .col-filter")).map(i => i.value.toLowerCase());
 
- let total = 0, compCount = 0, progCount = 0, stuckCount = 0, yetCount = 0;
+ let total = 0, compCount = 0, progCount = 0, stuckCount = 0;
+
+ // Find dynamic indices
  let statusIdx = -1; let epIdx = -1;
- if(!IS_PLAIN) { HEADERS.forEach((h, i) => { if(h.toLowerCase().includes("status")) statusIdx = i; if(h.toLowerCase().includes("ep id")) epIdx = i; }); }
+ HEADERS.forEach((h, i) => { if(h.toLowerCase().includes("status")) statusIdx = i; if(h.toLowerCase().includes("ep id")) epIdx = i; });
 
  DATA.forEach((r, originalIndex) => {
-  let statusStr = ""; let isDone = false; let activeF = inProgF;
-  if(!IS_PLAIN) { statusStr = (statusIdx >= 0 && r[statusIdx]) ? r[statusIdx].toUpperCase().trim() : ""; isDone = statusStr === "DONE" || statusStr === "[COMPLETED]"; activeF = isDone ? compF : inProgF; }
+  const statusStr = (statusIdx >= 0 && r[statusIdx]) ? r[statusIdx].toUpperCase().trim() : "";
+  const isDone = statusStr === "DONE" || statusStr === "[COMPLETED]";
 
   if(globalQ && !r.join(" ").toLowerCase().includes(globalQ)) return;
-  let match = true; for(let i = 0; i < activeF.length; i++) { if (activeF[i] && r[i] && !r[i].toLowerCase().includes(activeF[i])) { match = false; break; } }
+  const activeF = isDone ? compF : inProgF;
+  let match = true;
+  for(let i = 0; i < activeF.length; i++) { if (activeF[i] && r[i] && !r[i].toLowerCase().includes(activeF[i])) { match = false; break; } }
   if (!match) return;
 
-  if(!IS_PLAIN) {
-      if(isDone) compCount++; 
-      else if (statusStr === "WORKING ON IT" || statusStr === "[IN-PROGRESS]") progCount++; 
-      else if (statusStr === "STUCK") stuckCount++;
-      else yetCount++;
-  }
+  if(isDone) compCount++; else if (statusStr === "WORKING ON IT" || statusStr === "[IN-PROGRESS]") progCount++; else if (statusStr === "STUCK") stuckCount++;
   total++;
 
   const tr = document.createElement("tr"); tr.dataset.index = originalIndex;
-  if(!IS_PLAIN && epIdx >= 0 && r[epIdx] === "EP-0160") tr.classList.add("row-orange");
+  if(epIdx >= 0 && r[epIdx] === "EP-0160") tr.classList.add("row-orange");
   
   tr.innerHTML = r.map((c, i) => {
+   let colMeta = COLUMN_META[i] || { type: 'text' };
+   let cls = "";
    let cellVal = c ? c.trim() : "";
+   
+   // Hardcoded Visual Overrides if user hasn't explicitly set custom colors
+   if (i === statusIdx) {
+       let v = cellVal.toUpperCase();
+       if (v === "WORKING ON IT" || v === "[IN-PROGRESS]") cls = "status-working";
+       else if (v === "DONE" || v === "[COMPLETED]") cls = "status-done";
+       else if (v === "STUCK") cls = "status-stuck";
+       else if (v === "YET TO START") cls = "status-yet";
+   } else if (cellVal.toUpperCase() === "YES") cls="week-yes"; 
+     else if (cellVal.toUpperCase() === "NO") cls="week-no";
+     else if (cellVal.toUpperCase() === "NA") cls="week-na"; 
+     else if (cellVal.toUpperCase().includes("WAIT")) cls="week-waiting";
+
+   // Apply custom FORMATS (Bold, Italic, Color, Align)
    let fmt = (FORMATS[originalIndex] && FORMATS[originalIndex][i]) ? FORMATS[originalIndex][i] : {};
-   let colMeta = COLUMN_META[i] || { type: 'Text' }; let activeCategory = fmt.cat || colMeta.type || 'Text'; let cls = "";
-   
-   if(!IS_PLAIN) {
-       if (i === statusIdx) {
-           let v = cellVal.toUpperCase();
-           if (v === "WORKING ON IT" || v === "[IN-PROGRESS]") cls = "status-working"; else if (v === "DONE" || v === "[COMPLETED]") cls = "status-done";
-           else if (v === "STUCK") cls = "status-stuck"; else if (v === "YET TO START") cls = "status-yet";
-       } else if (cellVal.toUpperCase() === "YES") cls="week-yes"; else if (cellVal.toUpperCase() === "NO") cls="week-no";
-         else if (cellVal.toUpperCase() === "NA") cls="week-na"; else if (cellVal.toUpperCase().includes("WAIT")) cls="week-waiting";
-   }
-
-   if(admin && activeCellCoords.rIdx === originalIndex && activeCellCoords.cIdx === i) cls += " active-cell";
-
    let styleStr = '';
-   if(fmt.bg) { styleStr += `background-color: ${fmt.bg} !important; color: ${fmt.c ? fmt.c : getTextColorForBg(fmt.bg)} !important;`; } else if(fmt.c) { styleStr += `color: ${fmt.c} !important;`; }
-   if(fmt.b) styleStr += `font-weight: bold;`; if(fmt.i) styleStr += `font-style: italic;`;
-   if(fmt.u) styleStr += `text-decoration: underline;`; if(fmt.a) styleStr += `text-align: ${fmt.a};`;
-   if(fmt.ff) styleStr += `font-family: '${fmt.ff}';`; if(fmt.fs) styleStr += `font-size: ${fmt.fs};`;
-   if(COL_WIDTHS[i]) styleStr += `max-width: ${COL_WIDTHS[i]}; overflow: hidden;`;
+   if(fmt.bg) styleStr += `background-color: ${fmt.bg} !important; color: ${getTextColorForBg(fmt.bg)} !important;`;
+   if(fmt.b) styleStr += `font-weight: bold;`;
+   if(fmt.i) styleStr += `font-style: italic;`;
+   if(fmt.a) styleStr += `text-align: ${fmt.a};`;
 
-   let content = applyDataFormat(cellVal, activeCategory); 
-   
-   if (admin && activeCategory === 'Dropdown') {
-       let opts = colMeta.options || ['YES', 'NO']; if(fmt.options) opts = fmt.options; 
-       let optHtml = `<option value=""></option>` + opts.map(o => `<option value="${o}" ${o.toLowerCase() === cellVal.toLowerCase() ? 'selected' : ''}>${o}</option>`).join('');
-       optHtml += `<option value="___ADD_NEW___" class="add-new-opt">➕ Add New Option...</option>`;
-       content = `<select class="dynamic-dropdown" onchange="updateDropdownCell(this, ${originalIndex}, ${i})">${optHtml}</select>`;
-   } else if (admin && activeCategory === 'Date') { 
-       cls += " date-cell"; 
+   // Determine Cell Content based on Column Type
+   let content = cellVal;
+   let isEditable = false;
+
+   if (admin) {
+       if (colMeta.type === 'dropdown') {
+           let opts = colMeta.options || [];
+           let optHtml = `<option value=""></option>` + opts.map(o => `<option value="${o}" ${o.toLowerCase() === cellVal.toLowerCase() ? 'selected' : ''}>${o}</option>`).join('');
+           content = `<select class="dynamic-dropdown" onchange="updateCell(this.value, ${originalIndex}, ${i})">${optHtml}</select>`;
+       } else if (colMeta.type === 'date') {
+           cls += " date-cell";
+       } else {
+           isEditable = true; // Text type
+       }
    }
-   return `<td contenteditable="false" class="${cls}" style="${styleStr}">${content}</td>`;
+
+   return `<td contenteditable="${isEditable}" class="${cls}" style="${styleStr}">${content}</td>`;
   }).join("");
   
-  if (IS_PLAIN || !isDone) tbMain.appendChild(tr); else tbComp.appendChild(tr);
+  if (isDone) tbComp.appendChild(tr); else tbProg.appendChild(tr);
  });
 
- if(!IS_PLAIN) {
-     document.getElementById("statTotal").innerText = total; document.getElementById("statComp").innerText = compCount;
-     document.getElementById("statProg").innerText = progCount; document.getElementById("statStuck").innerText = stuckCount;
-     
-     if(total > 0) {
-         document.getElementById('chartDone').style.width = (compCount/total*100) + '%'; document.getElementById('chartDone').innerText = compCount > 0 ? compCount : '';
-         document.getElementById('chartWorking').style.width = (progCount/total*100) + '%'; document.getElementById('chartWorking').innerText = progCount > 0 ? progCount : '';
-         document.getElementById('chartStuck').style.width = (stuckCount/total*100) + '%'; document.getElementById('chartStuck').innerText = stuckCount > 0 ? stuckCount : '';
-         document.getElementById('chartYet').style.width = (yetCount/total*100) + '%'; document.getElementById('chartYet').innerText = yetCount > 0 ? yetCount : '';
-     }
- }
- syncActiveSheetToWorkbook(); 
+ document.getElementById("statTotal").innerText = total; document.getElementById("statComp").innerText = compCount;
+ document.getElementById("statProg").innerText = progCount; document.getElementById("statStuck").innerText = stuckCount;
 }
 
-window.updateDropdownCell = function(selectEl, rIdx, cIdx) {
-    if(selectEl.value === "___ADD_NEW___") {
-        let newVal = prompt("Enter new dropdown option to add:");
-        if(newVal && newVal.trim() !== "") {
-            newVal = newVal.trim();
-            let fmt = (FORMATS[rIdx] && FORMATS[rIdx][cIdx]) ? FORMATS[rIdx][cIdx] : null;
-            let colMeta = COLUMN_META[cIdx] || { type: 'Dropdown', options: [] };
-            if(fmt && fmt.cat === 'Dropdown' && fmt.options) {
-                if(!fmt.options.includes(newVal)) fmt.options.push(newVal);
-            } else {
-                if(!colMeta.options) colMeta.options = [];
-                if(!colMeta.options.includes(newVal)) colMeta.options.push(newVal);
-                COLUMN_META[cIdx] = colMeta;
-            }
-            DATA[rIdx][cIdx] = newVal;
-            showToast(`Added "${newVal}" to options`);
-        } else {
-            renderBodies(); return; 
-        }
-    } else {
-        DATA[rIdx][cIdx] = selectEl.value;
-    }
-    renderBodies();
+// DATA UPDATER (For Dropdowns and text)
+function updateCell(val, rIdx, cIdx) {
+    DATA[rIdx][cIdx] = val; renderBodies();
 }
-
-// ----------------------------------------------------
-// SMART ONE-CLICK EDITING & SELECTION (FOR ADMIN)
-// ----------------------------------------------------
-document.addEventListener("mousedown", e => {
- if(admin && e.target.tagName === "TD") {
-    activeCellCoords.rIdx = parseInt(e.target.parentElement.dataset.index);
-    activeCellCoords.cIdx = [...e.target.parentElement.children].indexOf(e.target);
-    
-    // Check if cell should be editable (not a specialized UI element)
-    if(!e.target.querySelector('select') && !e.target.classList.contains("date-cell")) {
-        e.target.setAttribute("contenteditable", "true");
-        // Show raw value for clean input
-        e.target.innerText = DATA[activeCellCoords.rIdx][activeCellCoords.cIdx];
-        e.target.focus();
-        
-        // Place cursor at the end
-        const range = document.createRange(); const sel = window.getSelection();
-        range.selectNodeContents(e.target); range.collapse(false);
-        sel.removeAllRanges(); sel.addRange(range);
-    }
-    renderBodies(); 
- }
-});
 
 document.addEventListener("input", e => {
- if(admin && e.target.tagName === "TD" && e.target.getAttribute("contenteditable") === "true") {
-  DATA[activeCellCoords.rIdx][activeCellCoords.cIdx] = e.target.innerText;
-  if(!IS_PLAIN) handleAutocomplete(e.target, activeCellCoords.cIdx);
+ if(admin && e.target.tagName === "TD" && !e.target.querySelector('select')) {
+  const tr = e.target.parentElement; const rIdx = parseInt(tr.dataset.index); const cIdx = [...tr.children].indexOf(e.target);
+  DATA[rIdx][cIdx] = e.target.innerText;
+  handleAutocomplete(e.target, cIdx);
+  
+  // Quick re-evaluate colors for known words if no custom format
+  if(!FORMATS[rIdx] || !FORMATS[rIdx][cIdx]) {
+      let v = e.target.innerText.toUpperCase().trim();
+      e.target.classList.remove('week-yes','week-no','week-na','week-waiting');
+      if(v === "YES") e.target.classList.add("week-yes");
+      else if(v === "NO") e.target.classList.add("week-no");
+      else if(v === "NA") e.target.classList.add("week-na");
+      else if(v.includes("WAIT")) e.target.classList.add("week-waiting");
+  }
  }
 });
 
-document.addEventListener("focusout", e => {
- if(admin && e.target.tagName === "TD" && e.target.getAttribute("contenteditable") === "true") {
-     e.target.setAttribute("contenteditable", "false");
-     renderBodies(); 
- }
-});
-
+// SORTING LOGIC (Safely Moves FORMATS alongside DATA)
 function sortTable(colIndex) {
   if (sortCol === colIndex) sortAsc = !sortAsc; else { sortCol = colIndex; sortAsc = true; }
+  
+  // Map data to include original formatting object
   let mapped = DATA.map((r, i) => ({ row: r, fmt: FORMATS[i] || {} }));
+  
   mapped.sort((a, b) => {
     let valA = (a.row[colIndex]||"").toLowerCase(); let valB = (b.row[colIndex]||"").toLowerCase();
-    if(colIndex === 0 && !IS_PLAIN) { valA = parseInt(valA) || 0; valB = parseInt(valB) || 0; }
-    if (valA < valB) return sortAsc ? -1 : 1; if (valA > valB) return sortAsc ? 1 : -1; return 0;
+    if(colIndex === 0) { valA = parseInt(valA) || 0; valB = parseInt(valB) || 0; }
+    if (valA < valB) return sortAsc ? -1 : 1;
+    if (valA > valB) return sortAsc ? 1 : -1;
+    return 0;
   });
-  DATA = mapped.map(m => m.row); FORMATS = {};
+
+  // Re-split into DATA and FORMATS
+  DATA = mapped.map(m => m.row);
+  FORMATS = {};
   mapped.forEach((m, i) => { if(Object.keys(m.fmt).length > 0) FORMATS[i] = m.fmt; });
-  activeCellCoords = { rIdx: null, cIdx: null }; renderBodies(); renderHeaders();
+
+  renderBodies(); renderHeaders();
 }
 
 function toggleAdmin() {
  if(!admin){
   if(prompt("Enter Admin Password:") !== "admin123") return showToast("Incorrect Password!", "error");
-  admin = true; document.getElementById("adminBtn").innerText = "🔓 Exit Admin Mode"; 
-  document.getElementById("formatToolbar").style.display = "flex"; document.getElementById("saveHeaderBtn").style.display = "inline-block";
-  showToast("Admin Mode Enabled");
+  admin = true; document.getElementById("adminBtn").innerText = "🔓 Exit Admin Mode"; showToast("Admin Mode Enabled");
  } else {
   admin = false; document.getElementById("adminBtn").innerText = "🔒 Enable Admin Mode";
-  document.getElementById("formatToolbar").style.display = "none"; document.getElementById("saveHeaderBtn").style.display = "none";
-  activeCellCoords = { rIdx: null, cIdx: null };
+  if(activeRow) activeRow.classList.remove("active-row"); activeRow = null;
  }
- renderTabs(); renderBodies(); renderHeaders();
+ renderBodies(); renderHeaders();
 }
 
-// ----- TOOLBAR FORMATTING -----
-function getFormatObjForToolbar() {
-    if(activeCellCoords.rIdx === null || activeCellCoords.cIdx === null) return null;
-    const rIdx = activeCellCoords.rIdx; const cIdx = activeCellCoords.cIdx;
-    if(!FORMATS[rIdx]) FORMATS[rIdx] = {}; if(!FORMATS[rIdx][cIdx]) FORMATS[rIdx][cIdx] = {};
-    return FORMATS[rIdx][cIdx];
-}
-function applyToolbarFormat(prop, value) {
-    if(activeCellCoords.rIdx === null) return showToast("Click on a cell first to format it!", "error");
-    let f = getFormatObjForToolbar(); 
-    if (prop === 'clear') delete FORMATS[activeCellCoords.rIdx][activeCellCoords.cIdx];
-    else if (value === 'toggle') f[prop] = !f[prop];
-    else f[prop] = value;
-    renderBodies();
-}
-
-// ----- CONTEXT MENU -----
+// ----- CONTEXT MENU ENGINE -----
 document.addEventListener('contextmenu', function(e) {
     if(!admin) return;
-    if(e.target.closest('.sheet-tab')) return; 
     let th = e.target.closest('.sort-header th'); let td = e.target.closest('td');
+    
     if (th || td) {
         e.preventDefault(); contextTarget = th || td;
         const menu = document.getElementById("contextMenu");
@@ -718,32 +522,35 @@ document.addEventListener('contextmenu', function(e) {
         document.querySelectorAll('.ctx-row').forEach(el => el.style.display = isHeader ? "none" : "flex");
         document.querySelectorAll('.ctx-cell').forEach(el => el.style.display = isHeader ? "none" : "flex");
         
-        if(td) {
-            activeCellCoords.rIdx = parseInt(td.parentElement.dataset.index);
-            activeCellCoords.cIdx = [...td.parentElement.children].indexOf(td);
-            renderBodies();
-        }
-        startContextMenuTimer();
+        if(td && activeRow) activeRow.classList.remove('active-row');
+        if(td) { activeRow = td.parentElement; activeRow.classList.add('active-row'); }
     }
 });
 document.addEventListener('click', e => { 
-    if(!e.target.closest('.context-menu')) { hideAllMenus(); }
+    if(!e.target.closest('.context-menu')) document.getElementById("contextMenu").style.display = "none"; 
 });
 
 // HEADER ACTIONS
 function renameColumnContext() {
-    if(!contextTarget) return; const cIdx = contextTarget.cellIndex; const oldName = HEADERS[cIdx];
+    if(!contextTarget) return;
+    const cIdx = contextTarget.cellIndex; const oldName = HEADERS[cIdx];
     const newName = prompt("Rename Column:", oldName);
     if(newName && newName !== oldName) { HEADERS[cIdx] = newName; renderHeaders(); renderBodies(); showToast("Column Renamed"); }
-    hideAllMenus();
+    document.getElementById("contextMenu").style.display = "none";
 }
 function addColumnContext(offset) {
-    if(!contextTarget) return; const cIdx = contextTarget.cellIndex + offset; const colName = prompt("Enter new Column Name:");
+    if(!contextTarget) return;
+    const cIdx = contextTarget.cellIndex + offset;
+    const colName = prompt("Enter new Column Name:");
     if(!colName) return;
     HEADERS.splice(cIdx, 0, colName); DATA.forEach(row => row.splice(cIdx, 0, ""));
+    
+    // Shift COLUMN_META and FORMATS keys
     let newMeta = {}; for(let k in COLUMN_META) { let key = parseInt(k); newMeta[key >= cIdx ? key+1 : key] = COLUMN_META[k]; } COLUMN_META = newMeta;
     for(let r in FORMATS) { let newFmt = {}; for(let k in FORMATS[r]){ let key = parseInt(k); newFmt[key >= cIdx ? key+1 : key] = FORMATS[r][k]; } FORMATS[r] = newFmt; }
-    renderHeaders(); renderBodies(); showToast(`Column Added`); hideAllMenus();
+    
+    renderHeaders(); renderBodies(); showToast(`Column Added`);
+    document.getElementById("contextMenu").style.display = "none";
 }
 function deleteColumnContext() {
     if(!contextTarget) return; const cIdx = contextTarget.cellIndex;
@@ -753,88 +560,114 @@ function deleteColumnContext() {
         for(let r in FORMATS) { let newFmt = {}; for(let k in FORMATS[r]){ let key=parseInt(k); if(key!==cIdx) newFmt[key > cIdx ? key-1 : key] = FORMATS[r][k]; } FORMATS[r] = newFmt; }
         renderHeaders(); renderBodies(); showToast(`Column Deleted`);
     }
-    hideAllMenus();
+    document.getElementById("contextMenu").style.display = "none";
 }
 
-// FORMAT OPTIONS MODAL
-function openFormatModal(targetType) {
-    if(!contextTarget) return; formatTargetType = targetType;
-    let currentCat = 'Text'; let opts = [];
-    if(targetType === 'column') {
-        const cIdx = contextTarget.cellIndex; document.getElementById("modalTargetLabel").innerText = "Target: Full Column [" + HEADERS[cIdx] + "]";
-        if(COLUMN_META[cIdx]) { currentCat = COLUMN_META[cIdx].type; opts = COLUMN_META[cIdx].options || []; }
-    } else {
-        const cIdx = activeCellCoords.cIdx; const rIdx = activeCellCoords.rIdx; document.getElementById("modalTargetLabel").innerText = "Target: Specific Cell";
-        if(FORMATS[rIdx] && FORMATS[rIdx][cIdx] && FORMATS[rIdx][cIdx].cat) { currentCat = FORMATS[rIdx][cIdx].cat; opts = FORMATS[rIdx][cIdx].options || []; } 
-        else if (COLUMN_META[cIdx]) { currentCat = COLUMN_META[cIdx].type; opts = COLUMN_META[cIdx].options || []; }
-    }
-    document.getElementById("formatCategory").value = currentCat; document.getElementById("colDropdownOptions").value = opts.join(', ');
-    toggleDropdownOptions(); document.getElementById("formatModal").style.display = "flex"; hideAllMenus();
-}
-function toggleDropdownOptions() { document.getElementById("dropdownOptionsDiv").style.display = document.getElementById("formatCategory").value === 'Dropdown' ? 'block' : 'none'; }
-function closeFormatModal() { document.getElementById("formatModal").style.display = "none"; }
-function saveFormatSettings() {
-    const type = document.getElementById("formatCategory").value; const optsRaw = document.getElementById("colDropdownOptions").value;
-    const optsArray = optsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
-    const cIdx = formatTargetType === 'column' ? contextTarget.cellIndex : activeCellCoords.cIdx;
+// COLUMN SETTINGS MODAL
+let editingColIdx = -1;
+function openColumnSettingsContext() {
+    if(!contextTarget) return;
+    editingColIdx = contextTarget.cellIndex;
+    document.getElementById("modalColName").innerText = "Column: " + HEADERS[editingColIdx];
     
-    if (formatTargetType === 'column') {
-        COLUMN_META[cIdx] = { type: type }; if(type === 'Dropdown') COLUMN_META[cIdx].options = optsArray;
-    } else {
-        const rIdx = activeCellCoords.rIdx; if(!FORMATS[rIdx]) FORMATS[rIdx] = {}; if(!FORMATS[rIdx][cIdx]) FORMATS[rIdx][cIdx] = {};
-        FORMATS[rIdx][cIdx].cat = type; if(type === 'Dropdown') FORMATS[rIdx][cIdx].options = optsArray;
+    let meta = COLUMN_META[editingColIdx] || {type: 'text'};
+    document.getElementById("colTypeSelect").value = meta.type;
+    document.getElementById("colDropdownOptions").value = meta.options ? meta.options.join(', ') : "";
+    
+    toggleDropdownOptions();
+    document.getElementById("colSettingsModal").style.display = "flex";
+    document.getElementById("contextMenu").style.display = "none";
+}
+function toggleDropdownOptions() {
+    const val = document.getElementById("colTypeSelect").value;
+    document.getElementById("dropdownOptionsDiv").style.display = val === 'dropdown' ? 'block' : 'none';
+}
+function closeModal() { document.getElementById("colSettingsModal").style.display = "none"; }
+function saveColumnSettings() {
+    const type = document.getElementById("colTypeSelect").value;
+    const optsRaw = document.getElementById("colDropdownOptions").value;
+    
+    COLUMN_META[editingColIdx] = { type: type };
+    if(type === 'dropdown') {
+        COLUMN_META[editingColIdx].options = optsRaw.split(',').map(s => s.trim()).filter(s => s.length > 0);
     }
-    closeFormatModal(); renderBodies(); showToast("Format Applied Successfully");
+    closeModal(); renderBodies(); showToast("Column Settings Saved");
 }
 
 // ROW ACTIONS
 function addRowContext(offset) {
-    if(activeCellCoords.rIdx === null) return; const rIdx = activeCellCoords.rIdx + offset;
-    const r = Array(HEADERS.length).fill(""); 
-    if(!IS_PLAIN) { const statusIdx = HEADERS.indexOf("Project Status"); if(statusIdx >= 0) r[statusIdx] = "Yet to Start"; }
+    if(!contextTarget) return;
+    const rIdx = parseInt(contextTarget.parentElement.dataset.index) + offset;
+    const r = Array(HEADERS.length).fill("");
+    const statusIdx = HEADERS.indexOf("Project Status"); if(statusIdx >= 0) r[statusIdx] = "Yet to Start";
     DATA.splice(rIdx, 0, r);
+    // Shift FORMATS
     let newFmts = {}; for(let k in FORMATS) { let key = parseInt(k); newFmts[key >= rIdx ? key+1 : key] = FORMATS[k]; } FORMATS = newFmts;
-    renderBodies(); showToast("Row Added"); hideAllMenus();
+    renderBodies(); showToast("Row Added"); document.getElementById("contextMenu").style.display = "none";
 }
 function duplicateRowContext() {
-    if(activeCellCoords.rIdx === null) return; const rIdx = activeCellCoords.rIdx;
+    if(!activeRow) return; const rIdx = parseInt(activeRow.dataset.index);
     DATA.splice(rIdx + 1, 0, [...DATA[rIdx]]);
     let newFmts = {}; for(let k in FORMATS) { let key = parseInt(k); newFmts[key > rIdx ? key+1 : key] = FORMATS[k]; } 
-    if(FORMATS[rIdx]) newFmts[rIdx+1] = JSON.parse(JSON.stringify(FORMATS[rIdx])); FORMATS = newFmts;
-    renderBodies(); showToast("Row Duplicated"); hideAllMenus();
+    if(FORMATS[rIdx]) newFmts[rIdx+1] = {...FORMATS[rIdx]}; FORMATS = newFmts;
+    renderBodies(); showToast("Row Duplicated"); document.getElementById("contextMenu").style.display = "none";
 }
 function deleteRowContext() {
-    if(activeCellCoords.rIdx === null) return; const rIdx = activeCellCoords.rIdx;
+    if(!activeRow) return; const rIdx = parseInt(activeRow.dataset.index);
     DATA.splice(rIdx, 1);
     let newFmts = {}; for(let k in FORMATS) { let key=parseInt(k); if(key!==rIdx) newFmts[key > rIdx ? key-1 : key] = FORMATS[k]; } FORMATS = newFmts;
-    activeCellCoords = {rIdx:null, cIdx:null}; renderBodies(); showToast("Row Deleted", "error"); hideAllMenus();
+    activeRow = null; renderBodies(); showToast("Row Deleted", "error"); document.getElementById("contextMenu").style.display = "none";
 }
 function moveRowContext(direction) {
-    if(activeCellCoords.rIdx === null) return; const rIdx = activeCellCoords.rIdx; const targetIdx = rIdx + direction;
+    if(!activeRow) return; const rIdx = parseInt(activeRow.dataset.index); const targetIdx = rIdx + direction;
     if (targetIdx >= 0 && targetIdx < DATA.length) {
         [DATA[rIdx], DATA[targetIdx]] = [DATA[targetIdx], DATA[rIdx]];
         let temp = FORMATS[rIdx]; FORMATS[rIdx] = FORMATS[targetIdx]; FORMATS[targetIdx] = temp;
         if(!FORMATS[rIdx]) delete FORMATS[rIdx]; if(!FORMATS[targetIdx]) delete FORMATS[targetIdx];
-        activeCellCoords.rIdx = targetIdx; renderBodies(); 
+        renderBodies(); 
+        document.querySelectorAll("tbody tr").forEach(tr => { if(parseInt(tr.dataset.index) === targetIdx) { activeRow = tr; activeRow.classList.add("active-row"); }});
     }
-    hideAllMenus();
+    document.getElementById("contextMenu").style.display = "none";
 }
 
-// CELL COPY/PASTE
+// CELL ACTIONS (Format & Copy/Paste)
+function getFormatObj() {
+    if(!contextTarget) return null;
+    const rIdx = parseInt(contextTarget.parentElement.dataset.index); const cIdx = contextTarget.cellIndex;
+    if(!FORMATS[rIdx]) FORMATS[rIdx] = {}; if(!FORMATS[rIdx][cIdx]) FORMATS[rIdx][cIdx] = {};
+    return FORMATS[rIdx][cIdx];
+}
+function toggleFormat(prop) {
+    let f = getFormatObj(); if(!f) return; f[prop] = !f[prop]; renderBodies(); document.getElementById("contextMenu").style.display = "none";
+}
+function setAlignment(val) {
+    let f = getFormatObj(); if(!f) return; f.a = val; renderBodies(); document.getElementById("contextMenu").style.display = "none";
+}
+function triggerColorPicker() { document.getElementById("hiddenColorPicker").click(); document.getElementById("contextMenu").style.display = "none"; }
+function applyCellColor(hexColor) { let f = getFormatObj(); if(!f) return; f.bg = hexColor; renderBodies(); showToast("Color Applied"); }
+function clearFormat() {
+    if(!contextTarget) return; const rIdx = parseInt(contextTarget.parentElement.dataset.index); const cIdx = contextTarget.cellIndex;
+    if(FORMATS[rIdx] && FORMATS[rIdx][cIdx]) { delete FORMATS[rIdx][cIdx]; renderBodies(); }
+    document.getElementById("contextMenu").style.display = "none";
+}
+
 function copyCell() {
-    if(activeCellCoords.rIdx === null) return; clipboardData = DATA[activeCellCoords.rIdx][activeCellCoords.cIdx]; 
-    showToast("Copied to Clipboard"); hideAllMenus();
+    if(!contextTarget) return;
+    const rIdx = contextTarget.parentElement.dataset.index; const cIdx = contextTarget.cellIndex;
+    clipboardData = DATA[rIdx][cIdx]; showToast("Copied to Clipboard"); document.getElementById("contextMenu").style.display = "none";
 }
 function pasteCell() {
-    if(activeCellCoords.rIdx === null || clipboardData === null) return; DATA[activeCellCoords.rIdx][activeCellCoords.cIdx] = clipboardData; 
-    renderBodies(); showToast("Pasted"); hideAllMenus();
+    if(!contextTarget || clipboardData === null) return;
+    const rIdx = contextTarget.parentElement.dataset.index; const cIdx = contextTarget.cellIndex;
+    DATA[rIdx][cIdx] = clipboardData; renderBodies(); showToast("Pasted"); document.getElementById("contextMenu").style.display = "none";
 }
 function clearCell() {
-    if(activeCellCoords.rIdx === null) return; DATA[activeCellCoords.rIdx][activeCellCoords.cIdx] = ""; 
-    renderBodies(); hideAllMenus();
+    if(!contextTarget) return;
+    const rIdx = contextTarget.parentElement.dataset.index; const cIdx = contextTarget.cellIndex;
+    DATA[rIdx][cIdx] = ""; renderBodies(); document.getElementById("contextMenu").style.display = "none";
 }
 
-// DATE PICKER
+// ----- DATE PICKER -----
 document.addEventListener("click", e => {
     if (admin && e.target.classList.contains("date-cell") && e.target.tagName === "TD" && !e.target.querySelector('input')) {
         const tr = e.target.parentElement; const colIndex = [...tr.children].indexOf(e.target);
@@ -851,50 +684,35 @@ document.addEventListener("click", e => {
     }
 });
 
-// DYNAMIC AUTOCOMPLETE (TEAM MEMBERS)
+// ----- AUTOCOMPLETE -----
 function closeAutocomplete() { let el = document.getElementById("autocomplete-list"); if(el) el.remove(); }
 document.addEventListener("click", e => { if (e.target.className !== "autocomplete-item" && e.target.tagName !== "TD") closeAutocomplete(); });
 
 function handleAutocomplete(cell, colIndex) {
-  closeAutocomplete(); const colName = HEADERS[colIndex] || ""; if (!colName.toLowerCase().includes("name")) return; 
-  const parts = cell.innerText.split(','); const currentSearch = parts[parts.length - 1].trim();
-  const searchLower = currentSearch.toLowerCase();
-  if (!searchLower) return;
+  closeAutocomplete();
+  const colName = HEADERS[colIndex] || "";
+  if (!colName.toLowerCase().includes("name")) return; // Only apply to Name columns dynamically
 
-  let matches = 0, listHTML = ""; let exactMatch = false;
-  
+  const parts = cell.innerText.split(','); const currentSearch = parts[parts.length - 1].trim().toLowerCase();
+  if (!currentSearch) return;
+
+  let matches = 0, listHTML = "";
   teamMembersList.forEach(name => {
-    if (name.toLowerCase() === searchLower) exactMatch = true;
-    if (name.toLowerCase().includes(searchLower)) { 
-        matches++; 
-        listHTML += `<div class="autocomplete-item" data-name="${name}">${name.replace(new RegExp(`(${searchLower})`, "gi"), "<strong>$1</strong>")}</div>`; 
+    if (name.toLowerCase().includes(currentSearch)) {
+      matches++; listHTML += `<div class="autocomplete-item" data-name="${name}">${name.replace(new RegExp(`(${currentSearch})`, "gi"), "<strong>$1</strong>")}</div>`;
     }
   });
-
-  if(!exactMatch && currentSearch.length > 0) {
-      listHTML += `<div class="autocomplete-item add-new-item" data-name="${currentSearch}"><i>➕ Add "${currentSearch}" as new member</i></div>`;
-      matches++;
-  }
 
   if (matches > 0) {
     const listContainer = document.createElement("div"); listContainer.setAttribute("id", "autocomplete-list"); listContainer.setAttribute("class", "autocomplete-items");
     const rect = cell.getBoundingClientRect(); listContainer.style.top = (rect.bottom + window.scrollY) + "px"; listContainer.style.left = (rect.left + window.scrollX) + "px"; listContainer.style.width = rect.width + "px";
     listContainer.innerHTML = listHTML; document.body.appendChild(listContainer);
-    
+
     Array.from(listContainer.getElementsByClassName("autocomplete-item")).forEach(item => {
       item.addEventListener("click", function() {
-        let selectedName = this.getAttribute("data-name");
-        
-        if (this.classList.contains('add-new-item')) {
-            if(!teamMembersList.includes(selectedName)) {
-                teamMembersList.push(selectedName);
-                localStorage.setItem("trackerTeamMembers_v16", JSON.stringify(teamMembersList));
-                showToast(`Added ${selectedName} to Team Members`);
-            }
-        }
-        
-        parts[parts.length - 1] = (parts.length > 1 ? " " : "") + selectedName;
-        cell.innerText = parts.join(','); DATA[parseInt(cell.parentElement.dataset.index)][colIndex] = cell.innerText;
+        parts[parts.length - 1] = (parts.length > 1 ? " " : "") + this.getAttribute("data-name");
+        cell.innerText = parts.join(',');
+        DATA[parseInt(cell.parentElement.dataset.index)][colIndex] = cell.innerText;
         closeAutocomplete();
         const range = document.createRange(); const sel = window.getSelection(); range.selectNodeContents(cell); range.collapse(false); sel.removeAllRanges(); sel.addRange(range);
       });
@@ -902,36 +720,35 @@ function handleAutocomplete(cell, colIndex) {
   }
 }
 
-// GLOBALS
+// ----- GLOBALS & SAVING -----
 function resetData() {
- if(confirm("⚠️ WARNING: This will delete ALL sheets and restore the original data. Are you sure?")) {
-  WORKBOOK = [{ id: Date.now(), name: "Main Tracker", type: "aurus", headers: [...initialHeaders], data: JSON.parse(JSON.stringify(rawInitialData)), formats: {}, meta: JSON.parse(JSON.stringify(initialMeta)), colWidths: {} }];
-  currentSheetIndex = 0; saveData(); loadActiveSheet(); showToast("Reset to Default");
+ if(confirm("⚠️ WARNING: This will delete all your edits and restore the original data. Are you sure?")) {
+  HEADERS = [...initialHeaders]; DATA = JSON.parse(JSON.stringify(rawInitialData)); FORMATS = {}; COLUMN_META = JSON.parse(JSON.stringify(initialMeta));
+  saveData(); renderHeaders(); renderBodies(); showToast("Reset to Default");
  }
 }
 function saveData() {
- syncActiveSheetToWorkbook();
- localStorage.setItem("trackerWorkbook_v16", JSON.stringify(WORKBOOK));
- showToast("💾 All Sheets Saved!"); 
+ localStorage.setItem("trackerHeaders_v8", JSON.stringify(HEADERS));
+ localStorage.setItem("trackerData_v8", JSON.stringify(DATA));
+ localStorage.setItem("trackerFormats_v8", JSON.stringify(FORMATS));
+ localStorage.setItem("trackerColMeta_v8", JSON.stringify(COLUMN_META));
+ showToast("💾 Sheet Saved Successfully!"); renderBodies(); 
 }
 function exportCSV() {
  let csv = "";
- const thNodes = [...document.querySelectorAll("#mainTable .sort-header th")].map(th => `"${th.innerText.replace(/ ▲| ▼/g, "")}"`);
+ const thNodes = [...document.querySelectorAll("#inProgressTable .sort-header th")].map(th => `"${th.innerText.replace(/ ▲| ▼/g, "")}"`);
  csv += thNodes.join(",") + "\n";
- 
- let rows = IS_PLAIN ? document.querySelectorAll("#tbody-main tr") : document.querySelectorAll("tbody tr");
- rows.forEach(r => {
+ document.querySelectorAll("tbody tr").forEach(r => {
   csv += [...r.children].map((c) => {
       let val = c.innerText; if(c.querySelector('select')) val = c.querySelector('select').value;
       return `"${val.replace(/"/g, '""')}"`;
   }).join(",") + "\n";
  });
  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], {type: "text/csv"}));
- a.download = `Aurus_Tracker_${WORKBOOK[currentSheetIndex].name.replace(/\s+/g, '_')}.csv`; a.click(); showToast("Download Started");
+ a.download = "Aurus_Certification_Tracker.csv"; a.click(); showToast("Download Started");
 }
 
-// BOOT UP
-loadActiveSheet();
+renderHeaders(); renderBodies();
 </script>
 </body>
 </html>
